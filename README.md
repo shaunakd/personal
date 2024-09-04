@@ -1,1 +1,1 @@
-# python-lesson-projects
+# Personal Python Projects
