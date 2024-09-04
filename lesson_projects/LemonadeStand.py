@@ -1,5 +1,5 @@
 from MenuItem import MenuItem
-from SalesForDay import SalesForDay
+from lesson_projects.SalesForDay import SalesForDay
 
 class InvalidSalesItemError(Exception):
     pass
