@@ -5,9 +5,11 @@ def get_words_with_consecutive_letters(words: list[str], n: int) -> list[str]:
   words_with_consecutive_letters = []
   for word in words:
     sorted_word = ''.join(sorted(word))
-    for i in range(len(word)-n):
+    i = 0
+    while i < len(word) - n:
+      # checks if each substring of length n is in alphabet, i.e. checks for consecutive letters
       sub_str = sorted_word[i:i+n-1]
       if sub_str in alphabet:
         words_with_consecutive_letters.append(word)
-        break
+      i += 1
   return words_with_consecutive_letters
