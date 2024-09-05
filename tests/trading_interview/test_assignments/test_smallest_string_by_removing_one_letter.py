@@ -4,7 +4,7 @@ from python_projects.trading_interview.assignments.smallest_string_by_removing_o
 pytestmark = pytest.mark.unit
 
 @pytest.mark.parametrize(
-    "s, expected_smallest_string",
+    "s, expected_smallest_strings",
     [
         pytest.param("wedding", "edding", id="case_1"),
         pytest.param("house", "hose", id="case_2"),
