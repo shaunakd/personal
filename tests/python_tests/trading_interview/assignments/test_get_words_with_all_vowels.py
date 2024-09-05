@@ -1,5 +1,5 @@
 import pytest
-from python_projects.trading_interview.assignments.words_with_all_vowels import get_words_with_all_vowels
+from projects.python_projects.trading_interview.assignments.words_with_all_vowels import get_words_with_all_vowels
 
 pytestmark = pytest.mark.unit
 

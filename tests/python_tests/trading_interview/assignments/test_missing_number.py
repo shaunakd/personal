@@ -1,5 +1,5 @@
 import pytest
-from python_projects.trading_interview.assignments.missing_number import find_missing_number
+from projects.python_projects.trading_interview.assignments.missing_number import find_missing_number
 
 pytestmark = pytest.mark.unit
 

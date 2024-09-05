@@ -1,5 +1,5 @@
 import pytest
-from python_projects.trading_interview.assignments.largest_number import create_largest_number
+from projects.python_projects.trading_interview.assignments.largest_number import create_largest_number
 
 pytestmark = pytest.mark.unit
 

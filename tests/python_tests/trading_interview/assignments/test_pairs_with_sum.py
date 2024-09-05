@@ -1,5 +1,5 @@
 import pytest
-from python_projects.trading_interview.assignments.pairs_with_sum import find_pairs_with_sum
+from projects.python_projects.trading_interview.assignments.pairs_with_sum import find_pairs_with_sum
 
 pytestmark = pytest.mark.unit
 
