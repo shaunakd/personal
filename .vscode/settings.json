@@ -3,6 +3,7 @@
     "editor.indentSize": "tabSize",
     "editor.formatOnSave": true,
     "python.analysis.autoImportCompletions": true,
+    "python.analysis.completeFunctionParens": true,
     "python.formatting.provider": "black",
     "python.testing.pytestArgs": [
         "."

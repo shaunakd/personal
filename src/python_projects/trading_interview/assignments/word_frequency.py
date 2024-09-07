@@ -7,7 +7,7 @@ In this programming assignment, you will create a Python script that counts the 
 
 Instructions:
 
--   Write a function called read_file(file_path) that takes a single argument, file_path, which is a string representing the path to the text file.
+-   Write a function called read_text_file(file_path) that takes a single argument, file_path, which is a string representing the path to the text file.
     The function should read the contents of the file and return a string containing the entire text.
 
 -   Write another function called word_frequency(text) that takes a single argument, text, which is a string containing the text to be processed.
@@ -30,15 +30,14 @@ from typing import Union
 from src.python_projects.utils.utils import (
     invert_injective_dictionary,
     invert_non_injective_dictionary,
+    read_file,
 )
 
 
-def read_file(file_path: str) -> str:
+def read_text_file(file_path: str) -> str:
     """Reads the contents of the file in file_path and returns a string containing the entire text."""
-    file_str = ""
-    with open(file_path, "r") as file:
-        file_str = file.read().replace("\n", " ")
-    return file_str
+    file = read_file(file_path).replace("\n", " ")
+    return file
 
 
 def filter_text(text: str) -> str:
@@ -52,8 +51,8 @@ def filter_text(text: str) -> str:
     for word in words_to_ignore:
         text = re.sub(f" {word} ", " ", text)
 
-    # removing whotespace
-    text = text.rstrip()
+    # removing whitespace
+    text = text.strip()
 
     return text
 
@@ -63,6 +62,7 @@ def word_frequency(filtered_text: str) -> dict[str, int]:
     # creates final dictionary of word frequencies
     words = filtered_text.split()
     word_frequency = {word: words.count(word) for word in set(words)}
+    word_frequency = {word: word_frequency[word] for word in sorted(word_frequency)}
     return word_frequency
 
 
