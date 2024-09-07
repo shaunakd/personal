@@ -1,0 +1,4 @@
+This text is a test text for word_frequency().
+The aim of the word_frequency() function|is*/06hto cOuNt the number of wOrds743929_={}:>in a file and return a dictionary MAPPiNG WORDS IN THIS FILE TO how1many2times3a4word5appears.
+Newline characters, digits, special characters and generally everything non-alphabetic must be removed! Additionally,,, all CAPITALs will be made lowercase, i.e. from THIS to this.
+The function may also remove common pRepoSiTiOns
