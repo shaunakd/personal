@@ -14,7 +14,7 @@ def invert_non_injective_dictionary(dictionary: dict[Any, Any]) -> dict[Any, Any
             if dictionary[k] == v and k not in inverted_dict[v]:
                 inverted_dict[v].append(k)
     for k in inverted_dict:
-        inverted_dict[v] = tuple(inverted_dict[v])
-        if len(inverted_dict[v]) == 1:
-            inverted_dict[v] = inverted_dict[v][0]
+        inverted_dict[k] = tuple(inverted_dict[k])
+        if len(inverted_dict[k]) == 1:
+            inverted_dict[k] = inverted_dict[k][0]
     return inverted_dict

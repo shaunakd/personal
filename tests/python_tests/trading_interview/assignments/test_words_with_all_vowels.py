@@ -1,5 +1,5 @@
 import pytest
-from projects.python_projects.trading_interview.assignments.words_with_all_vowels import (
+from src.python_projects.trading_interview.assignments.words_with_all_vowels import (
     get_words_with_all_vowels,
 )
 

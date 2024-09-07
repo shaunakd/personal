@@ -26,8 +26,8 @@ Instructions:
 """
 
 import re
-
-from projects.python_projects.utils import (
+from typing import Union
+from src.python_projects.utils.utils import (
     invert_injective_dictionary,
     invert_non_injective_dictionary,
 )
@@ -52,6 +52,7 @@ def filter_text(text: str) -> str:
     for word in words_to_ignore:
         text = re.sub(f" {word} ", " ", text)
 
+    # removing whotespace
     text = text.rstrip()
 
     return text
@@ -62,12 +63,23 @@ def word_frequency(filtered_text: str) -> dict[str, int]:
     # creates final dictionary of word frequencies
     words = filtered_text.split()
     word_frequency = {word: words.count(word) for word in set(words)}
-    frequency_word = invert_injective_dictionary(word_frequency)
-    word_frequency = invert_non_injective_dictionary(frequency_word)
     return word_frequency
+
+
+def group_words_by_frequency(
+    word_freq: dict[str, int],
+) -> dict[Union[str, tuple[str, ...]], int]:
+    frequency_word = invert_non_injective_dictionary(word_freq)
+    grouped_word_freq = invert_injective_dictionary(frequency_word)
+    sorted_word_freq = {
+        words: grouped_word_freq[words]
+        for words in sorted(grouped_word_freq, key=lambda word: word.get)
+    }
+    return sorted_word_freq
 
 
 def sort_by_frequency(word_freq: dict[str, int]) -> list[tuple[str, int]]:
     """Returns a list of tuples containing the words and their frequencies, sorted in descending order by frequency"""
     sorted_word_freq = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
+    sorted_word_freq = sorted(sorted_word_freq, key=lambda x: x[0])
     return sorted_word_freq
