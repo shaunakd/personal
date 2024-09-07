@@ -1,4 +1,6 @@
 {
+    "editor.autoIndent": "advanced",
+    "editor.indentSize": "tabSize",
     "editor.formatOnSave": true,
     "python.analysis.autoImportCompletions": true,
     "python.formatting.provider": "black",
