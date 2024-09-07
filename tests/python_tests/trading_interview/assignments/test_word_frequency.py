@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from src.python_projects.trading_interview.assignments.word_frequency import (
+    group_words_by_frequency,
     read_text_file,
     filter_text,
     word_frequency,
@@ -91,3 +92,57 @@ def test_word_frequency():
 
 def test_group_words_by_frequency():
     word_freq = read_file(DATA_DIR / "word_frequency_output.json")
+    expected_output = {
+        (
+            "additionally",
+            "aim",
+            "all",
+            "alphabetic",
+            "also",
+            "appears",
+            "beefing",
+            "capitals",
+            "common",
+            "count",
+            "dictionary",
+            "did",
+            "digits",
+            "everything",
+            "forth",
+            "from",
+            "generally",
+            "how",
+            "lowercase",
+            "made",
+            "many",
+            "mapping",
+            "may",
+            "more",
+            "must",
+            "newline",
+            "non",
+            "number",
+            "on",
+            "prepositions",
+            "remove",
+            "removed",
+            "return",
+            "sake",
+            "see",
+            "special",
+            "such",
+            "test",
+            "there",
+            "times",
+            "well",
+            "what",
+        ): 1,
+        ("be", "characters", "file", "function", "is", "now", "so", "text", "will"): 2,
+        ("of", "to", "word", "words"): 3,
+        ("for", "this"): 4,
+        "add": 5,
+        "up": 8,
+        "frequency": 12,
+    }
+    actual_output = group_words_by_frequency(word_freq)
+    assert actual_output == expected_output

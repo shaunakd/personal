@@ -74,7 +74,7 @@ def group_words_by_frequency(
     grouped_word_freq = invert_injective_dictionary(frequency_word)
     sorted_word_freq = {
         words: grouped_word_freq[words]
-        for words in sorted(grouped_word_freq, key=lambda word: word.get)
+        for words in sorted(grouped_word_freq, key=grouped_word_freq.__getitem__)
     }
     return sorted_word_freq
 
