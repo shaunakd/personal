@@ -1,24 +1,44 @@
-"""Project 9"""
+"""
+Project 9: Drawing a Blue
+
+You have 13 red cards and 13 blue cards, labeled from 1 to 13. You remove 7 blue cards at random.
+What is the probability that the card drawn is blue given that the number on the card is 3? Please write a simulation that has the probability as an output.
+"""
 
 import random
-from typing import Optional
-
-def get_prob_blue_given_n(num_of_red_cards: int, num_of_blue_cards: int, n: Optional[int]) -> float:
-  assert num_of_red_cards == num_of_blue_cards, "There must be as many reds as blues."
-  red_cards = range(1, num_of_red_cards + 1)
-  blue_cards = range(1, num_of_blue_cards + 1)
-  assert n in red_cards and n in blue_cards, "The card number given must be within range."
-  num_of_blue_cards = (num_of_blue_cards + 1)/2
-  prob_blue_given_n = 0
-  return prob_blue_given_n
 
 
-def simulate(n_cards: int) -> None:
-  total_3_count, blue_3_count = 0, 0
-  
-  # generating red and blue cards
-  red_cards, blue_cards = list(range(1, n_cards + 1)), list(range(1, n_cards + 1))
-  
-  # removing (n_cards + 1)/2 cards
-  blue_cards_to_remove = random
-  
+def run_simulation(n_simulations: int, n_cards: int) -> float:
+    # initialising counters
+    total_3_count, blue_3_count = 0, 0
+
+    for _ in range(n_simulations):
+        # generating red and blue cards
+        red_cards, blue_cards = list(range(1, n_cards + 1)), list(range(1, n_cards + 1))
+
+        # removing (n_cards + 1)/2 cards
+        n_cards_to_remove = n_cards // 2 if n_cards % 2 else n_cards // 2 + 1
+        blue_cards_to_remove = random.sample(blue_cards, n_cards_to_remove)
+        blue_cards = [card for card in blue_cards if card not in blue_cards_to_remove]
+
+        # combining remaining cards
+        cards = [("red", card) for card in red_cards] + [
+            ("reblued", card) for card in blue_cards
+        ]
+
+        # drawing a card and checking if it is a 3
+        card: tuple[str, int] = random.choice(cards)
+        if card[1] == 3:
+            total_3_count += 1
+            if card[0] == "blue":
+                blue_3_count += 1
+
+    prob_blue_given_3 = (
+        0 if total_3_count == 0 else total_3_count / blue_3_count
+    )  # avoiding division by 0 if no 3s were drawn
+    return prob_blue_given_3
+
+
+n_simulations = 1000000
+prob_blue_given_3 = run_simulation(n_simulations=n_simulations, n_cards=13)
+print(f"Probability that the card is blue given it is a 3: {prob_blue_given_3:.4f}")

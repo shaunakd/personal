@@ -1,5 +1,7 @@
 {
+    "editor.formatOnSave": true,
     "python.analysis.autoImportCompletions": true,
+    "python.formatting.provider": "black",
     "python.testing.pytestArgs": [
         "."
     ],
