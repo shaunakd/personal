@@ -69,6 +69,7 @@ def word_frequency(filtered_text: str) -> dict[str, int]:
 def group_words_by_frequency(
     word_freq: dict[str, int],
 ) -> dict[Union[str, tuple[str, ...]], int]:
+    """Groups the words from word_frequency by frequency"""
     frequency_word = invert_non_injective_dictionary(word_freq)
     grouped_word_freq = invert_injective_dictionary(frequency_word)
     sorted_word_freq = {
