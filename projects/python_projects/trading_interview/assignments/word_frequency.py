@@ -5,17 +5,15 @@ import re
 def read_file(file_path: str) -> str:
   """Reads the contents of the file in file_path and returns a string containing the entire text."""
   file_str = ""
-  with open(file_path, 'r') as file:
-    file_str = file.read().replace("\n", "")
+  with open(file_path, "r") as file:
+    file_str = file.read().replace("\n", " ")
   return file_str
 
 def word_frequency(text: str) -> dict[str, int]:
   """Returns a dictionary containing the frequency of each word in text"""
   text = text.lower()
   alphabet = list("abcdefghijklmnopqrztuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-  words_to_ignore = [
-    *alphabet, "an", "and", "as", "in", "the"
-  ]
+  words_to_ignore = [*alphabet, "an", "and", "as", "in", "the"]
   # removing non-alphabetic characters from text
   re.sub("[^a-zA-Z]+", " ", text)
   # removing words_to_ignore from text
