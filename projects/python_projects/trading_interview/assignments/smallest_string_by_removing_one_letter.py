@@ -1,4 +1,8 @@
-"""Project 5"""
+"""
+Project 5: Smallest String
+
+Create a function that takes a string S as input and returns the alphabetically smallest string that can be obtained by removing exactly one letter from S.
+"""
 
 
 def get_smallest_string_by_removing_one_letter(s: str) -> str:

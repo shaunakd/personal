@@ -1,4 +1,8 @@
-"""Project 4"""
+"""
+Project 4: Missing Number
+
+Create a function to find the single missing number in a given array that is supposed to contain integers from 1 to n.
+"""
 
 
 def find_missing_number(numbers: list[int], n: int) -> int:
