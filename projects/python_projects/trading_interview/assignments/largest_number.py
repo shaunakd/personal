@@ -1,4 +1,8 @@
-"""Project 3"""
+"""
+Project 3: Largest Possible Number
+
+Write a function to construct the largest possible number by rearranging the integers in a given list.
+"""
 
 def create_largest_number(numbers: list[int]) -> int:
   """Function to rearrange a list of numbers into the largest number possible"""
