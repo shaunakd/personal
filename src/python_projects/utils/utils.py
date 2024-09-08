@@ -4,8 +4,8 @@ from pathlib import Path, PosixPath
 from typing import Union, Any
 import json
 
-# type PathType = Union[str, Path, PosixPath]
-# type FileType = Union[str, pd.DataFrame, dict]
+PathType = Union[str, Path, PosixPath]
+FileType = Union[str, pd.DataFrame, dict]
 
 
 class RawFileFormats(Enum):
@@ -48,7 +48,7 @@ def invert_non_injective_dictionary(dictionary: dict[Any, Any]) -> dict[Any, Any
     return inverted_dict
 
 
-def is_extension(file_path: Union[str, Path, PosixPath], ext: str) -> bool:
+def is_extension(file_path: PathType, ext: str) -> bool:
     if isinstance(file_path, str):
         is_ext = file_path.endswith(ext)
     elif isinstance(file_path, Path) or isinstance(file_path, PosixPath):
