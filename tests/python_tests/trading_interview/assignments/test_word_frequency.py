@@ -1,4 +1,5 @@
 import json
+import pytest
 from pathlib import Path
 from src.python_projects.trading_interview.assignments.word_frequency import (
     group_words_by_frequency,
@@ -8,20 +9,30 @@ from src.python_projects.trading_interview.assignments.word_frequency import (
 )
 from src.python_projects.utils.utils import read_file
 
-DATA_DIR = Path(__file__).parent / "data"
+pytestmark = pytest.mark.unit
+
+ROOT_DIR = Path(__file__).parent / "cases"
 
 
-def test_filter_text():
-    text = read_text_file(DATA_DIR / "text.txt")
+# @pytest.mark.parametrize(
+#     "test_name, expected_output",
+#     [
+#         pytest.param("empty_text_file", "", id="empty_text_file"),
+#         pytest.param("no_text_file", None, id="no_text_file"),
+#         pytest.param("text_file_exists", None, id="text_file_exists")
+#     ]
+# )
+def test_filter_text(test_name, expected_output):
+    text = read_text_file(ROOT_DIR / "text.txt")
     expected_output = "this text is test text for word frequency aim of word frequency function is to count number of words file return dictionary mapping words this file to how many times word appears newline characters digits special characters generally everything non alphabetic must be removed additionally all capitals will be made lowercase from this to this function may also remove common prepositions such well see what did there so on so forth now now will add add add add add more words for for for sake of beefing up up up up up up up up frequency frequency frequency frequency frequency frequency frequency frequency frequency frequency"
     actual_output = filter_text(text)
     assert actual_output == expected_output
-    with open(DATA_DIR / "filtered_text.txt", "w") as file:
+    with open(ROOT_DIR / "filtered_text.txt", "w") as file:
         file.write(actual_output)
 
 
-def test_word_frequency():
-    filtered_text = read_text_file(DATA_DIR / "filtered_text.txt")
+def test_word_frequency(test_name, expected_output):
+    filtered_text = read_text_file(ROOT_DIR / "filtered_text.txt")
     expected_output = {
         "remove": 1,
         "generally": 1,
@@ -86,12 +97,12 @@ def test_word_frequency():
     }
     actual_output = word_frequency(filtered_text)
     assert actual_output == expected_output
-    with open(DATA_DIR / "word_frequency_output.json", "w") as file:
+    with open(ROOT_DIR / "word_frequency_output.json", "w") as file:
         file.write(json.dumps(actual_output))
 
 
-def test_group_words_by_frequency():
-    word_freq = read_file(DATA_DIR / "word_frequency_output.json")
+def test_group_words_by_frequency(test_name, expected_output):
+    word_freq = read_file(ROOT_DIR / "word_frequency_output.json")
     expected_output = {
         (
             "additionally",

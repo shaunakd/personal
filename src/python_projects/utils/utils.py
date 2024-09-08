@@ -1,8 +1,16 @@
 from enum import Enum
 import pandas as pd
-from pathlib import Path
+from pathlib import Path, PosixPath
 from typing import Union, Any
 import json
+
+# type PathType = Union[str, Path, PosixPath]
+# type FileType = Union[str, pd.DataFrame, dict]
+
+
+class RawFileFormats(Enum):
+    JSON = ".json"
+    TEXT = ".txt"
 
 
 class DataFrameFileFormats(Enum):
@@ -20,11 +28,13 @@ class DataFrameFileFormats(Enum):
 
 
 def invert_injective_dictionary(dictionary: dict[Any, Any]) -> dict[Any, Any]:
+    "Inverts dictionary where each key has a unique value"
     inverted_dict = {v: k for k, v in dictionary.items()}
     return inverted_dict
 
 
 def invert_non_injective_dictionary(dictionary: dict[Any, Any]) -> dict[Any, Any]:
+    "Inverts dictionary where each key does not have a unique value"
     inverted_dict: dict[Any, Any] = {}
     for v in dictionary.values():
         inverted_dict[v] = []
@@ -38,14 +48,17 @@ def invert_non_injective_dictionary(dictionary: dict[Any, Any]) -> dict[Any, Any
     return inverted_dict
 
 
-def is_extension(file_path: Union[str, Path], ext: str) -> bool:
+def is_extension(file_path: Union[str, Path, PosixPath], ext: str) -> bool:
     if isinstance(file_path, str):
-        return file_path.endswith(ext)
-    elif isinstance(file_path, Path):
-        return file_path.suffix == ext
+        is_ext = file_path.endswith(ext)
+    elif isinstance(file_path, Path) or isinstance(file_path, PosixPath):
+        is_ext = file_path.suffix == ext
+    return is_ext
 
 
-def read_dataframe(file_path: Union[str, Path], **kwargs: Any) -> pd.DataFrame:
+def read_dataframe(
+    file_path: Union[str, Path, PosixPath], **kwargs: Any
+) -> pd.DataFrame:
     """Reads various file formats into a pandas DataFrame.
 
     Supported formats:
@@ -100,21 +113,26 @@ def read_dataframe(file_path: Union[str, Path], **kwargs: Any) -> pd.DataFrame:
 
 
 def read_file(
-    file_path: Union[Path, str], as_dataframe: bool = False, **kwargs: Any
+    file_path: Union[str, Path, PosixPath], as_dataframe: bool = False, **kwargs: Any
 ) -> Any:
-    """Reads various file formats, either as a Pandas DataFrame or raw content."""
+    """
+    Reads various file formats, either as a Pandas DataFrame or raw content.
+
+    If the file is a JSON, `as_dataframe` determines whether to read it as a dataframe or a dictionary
+    """
     data: Any = None
-    if as_dataframe:
-        are_dataframe_extensions = [
-            is_extension(file_path, file_format)
-            for file_format in DataFrameFileFormats.to_list()
-        ]
-        if any(are_dataframe_extensions):
-            data = read_dataframe(file_path, **kwargs)
-    elif is_extension(file_path, ".txt"):
-        with open(file_path, "r") as file:
-            data = file.read()
-    elif is_extension(file_path, ".json"):
+    are_dataframe_extensions = [
+        is_extension(file_path, file_format)
+        for file_format in DataFrameFileFormats.to_list()
+    ]
+    if is_extension(file_path, RawFileFormats.JSON.value) and as_dataframe:
+        data = read_dataframe(file_path, **kwargs)
+    elif is_extension(file_path, RawFileFormats.JSON.value):
         with open(file_path) as file:
             data = json.load(file)
+    elif is_extension(file_path, RawFileFormats.TEXT.value):
+        with open(file_path, "r") as file:
+            data = file.read()
+    elif any(are_dataframe_extensions):
+        data = read_dataframe(file_path, **kwargs)
     return data
