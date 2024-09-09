@@ -32,7 +32,7 @@ def test_filter_text(test_dir, expected_output):
     assert actual_output == expected_output
     if actual_output:
         with open(ROOT_DIR / "filtered_text.txt", "w+") as file:
-            if actual_output != file.read():
+            if f"{actual_output}\n" != file.read():
                 file.write(actual_output)
 
 
