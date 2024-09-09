@@ -26,7 +26,7 @@ Instructions:
 """
 
 import re
-from typing import Union
+from typing import Optional, Union
 from src.python_projects.utils.utils import (
     invert_injective_dictionary,
     invert_non_injective_dictionary,
@@ -36,51 +36,60 @@ from src.python_projects.utils.utils import (
 
 def read_text_file(file_path: str) -> str:
     """Reads the contents of the file in file_path and returns a string containing the entire text."""
-    file = read_file(file_path).replace("\n", " ")
+    file = read_file(file_path)
+    if file:
+        file = file.replace("\n", " ")
     return file
 
 
-def filter_text(text: str) -> str:
+def filter_text(text: Optional[str]) -> Optional[str]:
     """Filters text"""
-    text = text.lower()
-    alphabet = list("abcdefghijklmnopqrztuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    words_to_ignore = [*alphabet, "an", "and", "as", "in", "the"]
-    # removing non-alphabetic characters from text
-    text = re.sub("[^a-zA-Z]+", " ", text)
-    # removing words_to_ignore from text
-    for word in words_to_ignore:
-        text = re.sub(f" {word} ", " ", text)
-
-    # removing whitespace
-    text = text.strip()
-
+    if text:
+        text = text.lower()
+        alphabet = list("abcdefghijklmnopqrztuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        words_to_ignore = [*alphabet, "an", "and", "as", "in", "the"]
+        # removing non-alphabetic characters from text
+        text = re.sub("[^a-zA-Z]+", " ", text)
+        # removing words_to_ignore from text
+        for word in words_to_ignore:
+            text = re.sub(f" {word} ", " ", text)
+        # removing whitespace
+        text = text.strip()
     return text
 
 
-def word_frequency(filtered_text: str) -> dict[str, int]:
+def word_frequency(filtered_text: Optional[str]) -> Optional[dict[str, int]]:
     """Returns a dictionary containing the frequency of each word in text"""
     # creates final dictionary of word frequencies
-    words = filtered_text.split()
-    word_frequency = {word: words.count(word) for word in set(words)}
-    word_frequency = {word: word_frequency[word] for word in sorted(word_frequency)}
+    word_frequency = None
+    if filtered_text:
+        words = filtered_text.split()
+        word_frequency = {word: words.count(word) for word in set(words)}
+        word_frequency = {word: word_frequency[word] for word in sorted(word_frequency)}
     return word_frequency
 
 
 def group_words_by_frequency(
-    word_freq: dict[str, int],
-) -> dict[Union[str, tuple[str, ...]], int]:
+    word_freq: Optional[dict[str, int]],
+) -> Optional[dict[Union[str, tuple[str, ...]], int]]:
     """Groups the words from word_frequency by frequency"""
-    frequency_word = invert_non_injective_dictionary(word_freq)
-    grouped_word_freq = invert_injective_dictionary(frequency_word)
-    sorted_word_freq = {
-        words: grouped_word_freq[words]
-        for words in sorted(grouped_word_freq, key=grouped_word_freq.__getitem__)
-    }
-    return sorted_word_freq
+    grouped_word_freq = None
+    if word_freq:
+        frequency_word = invert_non_injective_dictionary(word_freq)
+        grouped_word_freq = invert_injective_dictionary(frequency_word)
+        grouped_word_freq = {
+            words: grouped_word_freq[words]
+            for words in sorted(grouped_word_freq, key=grouped_word_freq.__getitem__)
+        }
+    return grouped_word_freq
 
 
-def sort_by_frequency(word_freq: dict[str, int]) -> list[tuple[str, int]]:
+def sort_by_frequency(
+    word_freq: Optional[dict[str, int]],
+) -> Optional[list[tuple[str, int]]]:
     """Returns a list of tuples containing the words and their frequencies, sorted in descending order by frequency"""
-    sorted_word_freq = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
-    sorted_word_freq = sorted(sorted_word_freq, key=lambda x: x[0])
+    sorted_word_freq = None
+    if word_freq:
+        sorted_word_freq = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
+        sorted_word_freq = sorted(sorted_word_freq, key=lambda x: x[0])
     return sorted_word_freq

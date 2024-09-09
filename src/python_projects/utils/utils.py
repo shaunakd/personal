@@ -121,18 +121,19 @@ def read_file(
     If the file is a JSON, `as_dataframe` determines whether to read it as a dataframe or a dictionary
     """
     data: Any = None
-    are_dataframe_extensions = [
-        is_extension(file_path, file_format)
-        for file_format in DataFrameFileFormats.to_list()
-    ]
-    if is_extension(file_path, RawFileFormats.JSON.value) and as_dataframe:
-        data = read_dataframe(file_path, **kwargs)
-    elif is_extension(file_path, RawFileFormats.JSON.value):
-        with open(file_path) as file:
-            data = json.load(file)
-    elif is_extension(file_path, RawFileFormats.TEXT.value):
-        with open(file_path, "r") as file:
-            data = file.read()
-    elif any(are_dataframe_extensions):
-        data = read_dataframe(file_path, **kwargs)
+    if Path(file_path).exists():
+        are_dataframe_extensions = [
+            is_extension(file_path, file_format)
+            for file_format in DataFrameFileFormats.to_list()
+        ]
+        if is_extension(file_path, RawFileFormats.JSON.value) and as_dataframe:
+            data = read_dataframe(file_path, **kwargs)
+        elif is_extension(file_path, RawFileFormats.JSON.value):
+            with open(file_path) as file:
+                data = json.load(file)
+        elif is_extension(file_path, RawFileFormats.TEXT.value):
+            with open(file_path, "r") as file:
+                data = file.read()
+        elif any(are_dataframe_extensions):
+            data = read_dataframe(file_path, **kwargs)
     return data
