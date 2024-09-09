@@ -56,9 +56,7 @@ def is_extension(file_path: PathType, ext: str) -> bool:
     return is_ext
 
 
-def read_dataframe(
-    file_path: Union[str, Path, PosixPath], **kwargs: Any
-) -> pd.DataFrame:
+def read_dataframe(file_path: PathType, **kwargs: Any) -> pd.DataFrame:
     """Reads various file formats into a pandas DataFrame.
 
     Supported formats:
@@ -112,9 +110,7 @@ def read_dataframe(
     return df
 
 
-def read_file(
-    file_path: Union[str, Path, PosixPath], as_dataframe: bool = False, **kwargs: Any
-) -> Any:
+def read_file(file_path: PathType, as_dataframe: bool = False, **kwargs: Any) -> Any:
     """
     Reads various file formats, either as a Pandas DataFrame or raw content.
 
