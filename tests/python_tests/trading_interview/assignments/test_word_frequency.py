@@ -31,9 +31,10 @@ def test_filter_text(test_dir, expected_output):
     actual_output = filter_text(text)
     assert actual_output == expected_output
     if actual_output:
+        actual_output += "\n"
         with open(ROOT_DIR / "filtered_text.txt", "w+") as file:
-            if actual_output != file.read().replace("\n", ""):
-                file.write(f"{actual_output}\n")
+            if actual_output != file.read():
+                file.write(actual_output)
 
 
 def test_word_frequency(test_name, expected_output):
