@@ -13,15 +13,16 @@ n is an integer within the range [-100,000,000,000, 100,000,000,000]
 Each element of array A is an integer within the range [-100,000,000,000, 100,000,000,000]
 """
 
+
 def get_arithmetic_mean_contiguous_fragments_count(integers: list, target: int) -> int:
     count = 0
-    for start in range(len(integers)-1):
+    for start in range(len(integers) - 1):
         for end in range(start, len(integers)):
             try:
-                fragment = integers[start:end+1]
+                fragment = integers[start : end + 1]
                 arithmetic_mean = int(sum(fragment) / len(fragment))
             except ValueError:
                 continue
             if arithmetic_mean == target:
-                
+                count += 1
     return count
