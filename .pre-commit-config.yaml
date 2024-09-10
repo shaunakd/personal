@@ -1,4 +1,5 @@
 repos:
+  # for Python
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
@@ -23,3 +24,34 @@ repos:
       - id: ruff
         args: ["--select=F401", "--fix"]
       - id: ruff-format
+  
+  # for C++
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v12.0.1
+    hooks:
+      - id: clang-format
+        args: [--style=file]
+
+  - repo: https://github.com/danmar/cppcheck
+    rev: v2.6
+    hooks:
+      - id: cppcheck
+        args: [--enable=all]
+
+  - repo: https://github.com/llvm/llvm-project
+    rev: llvmorg-13.0.0
+    hooks:
+      - id: clang-tidy
+        args: [--checks=-*,modernize-*]
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v12.0.1
+    hooks:
+      - id: clang-format
+        args: [--style=file]
+
+  - repo: https://github.com/danmar/cppcheck
+    rev: v2.6
+    hooks:
+      - id: cppcheck
+        args: [--enable=all]
