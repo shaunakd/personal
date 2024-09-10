@@ -23,5 +23,5 @@ def get_arithmetic_mean_contiguous_fragments_count(integers: list, target: int) 
             except ValueError:
                 continue
             if arithmetic_mean == target:
-                count += 1
+                
     return count
