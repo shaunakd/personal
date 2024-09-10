@@ -1,18 +1,27 @@
-"""Project 8"""
+"""
+Project 8: Consecutive Letters
+
+Write a function that takes a list of words and returns a list containing only those words that have n consecutive letters of the alphabet.
+"""
 
 
 def get_words_with_consecutive_letters(words: list[str], n: int) -> list[str]:
     """Returns a list containing only the words that have n consecutive letters of the alphabet"""
-    assert n > 0, "Only positive integer values of n are allowed."
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    assert n >= 0, "Only nonnegative integer values of n are allowed."
     words_with_consecutive_letters = []
-    for word in words:
-        sorted_word = "".join(sorted(word))
-        i = 0
-        while i < len(word) - n:
-            # checks if each substring of length n is in alphabet, i.e. checks for consecutive letters
-            sub_str = sorted_word[i : i + n - 1]
-            if sub_str in alphabet:
-                words_with_consecutive_letters.append(word)
-            i += 1
+    
+    if n == 1:
+        words_with_consecutive_letters = words
+    elif n > 1:
+        for word in words:
+            count = 1
+            for i in range(1, len(word)):
+                if ord(word[i]) - ord(word[i - 1]) == 1:
+                    count += 1
+                    if count == n:
+                        words_with_consecutive_letters.append(word)
+                        break
+                else:
+                    count = 1  # Reset count if characters are not consecutive
+    
     return words_with_consecutive_letters
