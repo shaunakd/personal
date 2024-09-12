@@ -8,6 +8,7 @@ from src.python_projects.trading_interview.assignments.sudoku import Sudoku
         # Valid Sudoku Test Cases
         pytest.param(
             [
+                # Valid: classic 9x9 Sudoku
                 [5, 3, 4, 6, 7, 8, 9, 1, 2],
                 [6, 7, 2, 1, 9, 5, 3, 4, 8],
                 [1, 9, 8, 3, 4, 2, 5, 6, 7],
@@ -22,12 +23,19 @@ from src.python_projects.trading_interview.assignments.sudoku import Sudoku
             id="valid_9x9_sudoku",
         ),
         pytest.param(
-            [[1, 2, 3, 4], [3, 4, 1, 2], [2, 3, 4, 1], [4, 1, 2, 3]],
+            [
+                # Valid: 4x4 Sudoku
+                [1, 2, 3, 4],
+                [3, 4, 1, 2],
+                [2, 3, 4, 1],
+                [4, 1, 2, 3],
+            ],
             True,
             id="valid_4x4_sudoku",
         ),
         pytest.param(
             [
+                # Valid: alternate 9x9 Sudoku
                 [1, 2, 3, 4, 5, 6, 7, 8, 9],
                 [4, 5, 6, 7, 8, 9, 1, 2, 3],
                 [7, 8, 9, 1, 2, 3, 4, 5, 6],
