@@ -11,17 +11,22 @@ import random
 def run_simulation(n_simulations: int, n_cards: int) -> float:
     # initialising counters
     n_3, n_blue_3 = 0, 0
-    
+
     # simulation cannot run if there are no cards
     if n_cards > 0:
         for _ in range(n_simulations):
             # generating red and blue cards
-            red_cards, blue_cards = list(range(1, n_cards + 1)), list(range(1, n_cards + 1))
+            red_cards, blue_cards = (
+                list(range(1, n_cards + 1)),
+                list(range(1, n_cards + 1)),
+            )
 
             # removing (n_cards + 1)/2 cards
             n_cards_to_remove = n_cards // 2 if n_cards % 2 else n_cards // 2 + 1
             blue_cards_to_remove = random.sample(blue_cards, n_cards_to_remove)
-            blue_cards = [card for card in blue_cards if card not in blue_cards_to_remove]
+            blue_cards = [
+                card for card in blue_cards if card not in blue_cards_to_remove
+            ]
 
             # combining remaining cards
             cards = [("red", card) for card in red_cards] + [
