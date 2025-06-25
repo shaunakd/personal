@@ -1,6 +1,8 @@
 import json
 import pytest
 from pathlib import Path
+
+import sys
 from src.python_projects.trading_interview.assignments.word_frequency import (
     group_words_by_frequency,
     read_text_file,
@@ -15,6 +17,8 @@ ROOT_DIR = Path(__file__).parent / "cases"
 EMPTY_TEXT_FILE_DIR = ROOT_DIR / "empty_text_file"
 NO_TEXT_FILE_DIR = ROOT_DIR / "no_text_file"
 TEXT_FILE_EXISTS_DIR = ROOT_DIR / "text_file_exists"
+
+print(sys.path)
 
 
 @pytest.mark.parametrize(
@@ -113,7 +117,7 @@ def test_filter_text(test_dir, expected_output):
         ),
     ],
 )
-def test_word_frequency(test_name, expected_output):
+def test_word_frequency(test_dir, expected_output):
     filtered_text = read_text_file(ROOT_DIR / "filtered_text.txt")
     actual_output = word_frequency(filtered_text)
     assert actual_output == expected_output
@@ -123,7 +127,7 @@ def test_word_frequency(test_name, expected_output):
                 file.write(json.dumps(actual_output))
 
 
-def test_group_words_by_frequency(test_name, expected_output):
+def test_group_words_by_frequency(test_dir):
     word_freq = read_file(ROOT_DIR / "word_frequency_output.json")
     expected_output = {
         (

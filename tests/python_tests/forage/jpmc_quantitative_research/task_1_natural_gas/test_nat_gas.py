@@ -4,11 +4,9 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from datetime import timedelta
 
-from src.python_projects.utils.utils import read_file
-
 
 # Load the CSV file containing natural gas prices
-data = read_file("nat_gas.csv")
+data = pd.read_csv("nat_gas.csv")
 data["Date"] = pd.to_datetime(data["Date"])
 data.set_index("Date", inplace=True)
 
