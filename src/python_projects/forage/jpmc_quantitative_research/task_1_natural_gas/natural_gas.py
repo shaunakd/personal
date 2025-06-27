@@ -13,14 +13,11 @@ Try to visualize the data to find patterns and consider what factors might cause
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from python_projects.utils.utils import read_file
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-import sys
-
-print(sys.executable)
-
 # Load and parse the CSV
-data = pd.read_csv("natural_gas_prices.csv")
+data = read_file("natural_gas_prices.csv")
 data["Date"] = pd.to_datetime(data["Date"])
 data.set_index("Date", inplace=True)
 
