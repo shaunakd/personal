@@ -1,11 +1,17 @@
 import pytest
 import pandas as pd
 from datetime import timedelta
-from src.python_projects.forage.jpmc_quantitative_research.task_1_natural_gas.test import (
+from python_projects.forage.jpmc_quantitative_research.task_1_natural_gas.natural_gas import (
     estimate_price,
     data,
     polynomial,
 )
+
+import sys
+
+print(sys.path)
+
+pytestmark = pytest.mark.unit
 
 
 @pytest.mark.parametrize(
@@ -14,11 +20,11 @@ from src.python_projects.forage.jpmc_quantitative_research.task_1_natural_gas.te
         (
             "2023-06-15",
             11.165743784950237,
-        ),  # Replace `3.45` with the expected interpolated price
+        ),
         (
             "2022-01-01",
             11.385035503444263,
-        ),  # Replace `2.75` with the expected interpolated price
+        ),
     ],
 )
 def test_estimate_price_interpolation(input_date, expected_price):
@@ -33,6 +39,7 @@ def test_estimate_price_invalid_date():
     """
     Test that the estimate_price function raises a ValueError for dates outside the range.
     """
+    print(estimate_price("2010-01-01"))
     with pytest.raises(ValueError):
         estimate_price("2010-01-01")  # Date before the range
     with pytest.raises(ValueError):
