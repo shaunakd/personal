@@ -16,8 +16,40 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
-# Function to estimate price for any date (with interpolation)
-def estimate_price(date_input):
+def load_and_prepare_data(csv_path):
+    """Load, parse, and prepare the monthly natural gas price data."""
+    data = pd.read_csv(csv_path)
+    data["Date"] = pd.to_datetime(data["Date"])
+    data.set_index("Date", inplace=True)
+    data = data.sort_index()
+    data = data.resample("ME").mean()  # Fill any missing months safely
+    data = data.dropna()
+    return data
+
+
+def fit_holt_winters(data):
+    """Fit Holt-Winters model and forecast next 12 months."""
+    if len(data) < 24:
+        raise ValueError(
+            "At least 24 months of data required for seasonal Holt-Winters model."
+        )
+    model = ExponentialSmoothing(
+        data["Price"], trend="add", seasonal="add", seasonal_periods=12
+    )
+    fit = model.fit()
+    forecast = fit.forecast(12)
+    forecast_df = forecast.to_frame(name="Price")
+    return forecast_df
+
+
+def combine_and_interpolate(data, forecast_df):
+    """Combine historical and forecasted data, interpolate to daily resolution."""
+    full_data = pd.concat([data, forecast_df])
+    full_daily = full_data.resample("D").interpolate(method="linear")
+    return full_data, full_daily
+
+
+def estimate_price(date_input, full_daily):
     """
     Estimate the natural gas price for any date using interpolated values.
 
@@ -40,70 +72,40 @@ def estimate_price(date_input):
         return np.nan
 
 
-# Load and parse the CSV
-data = pd.read_csv("natural_gas_prices.csv")
-data["Date"] = pd.to_datetime(data["Date"])
-data.set_index("Date", inplace=True)
-
-# Ensure data is sorted and monthly
-data = data.sort_index()
-data = data.resample("ME").mean()  # Fill any missing months safely
-
-# Drop any remaining missing values just in case
-data = data.dropna()
-
-# Check there's at least 24 months
-if len(data) < 24:
-    raise ValueError(
-        "At least 24 months of data required for seasonal Holt-Winters model."
+def plot_prices(data, forecast, full_daily):
+    """Plot historical, forecasted, and interpolated daily prices."""
+    plt.figure(figsize=(10, 6))
+    plt.plot(data.index, data["Price"], label="Historical Prices", marker="o")
+    plt.plot(
+        forecast.index,
+        forecast["Price"],
+        label="12-Month Forecast",
+        marker="x",
+        color="green",
     )
-
-# Fit Holt-Winters model with additive seasonality
-model = ExponentialSmoothing(
-    data["Price"], trend="add", seasonal="add", seasonal_periods=12
-)
-fit = model.fit()
-
-# Forecast next 12 months
-forecast = fit.forecast(12)
-forecast_df = forecast.to_frame(name="Price")
-
-# Combine historical and forecasted data
-full_data = pd.concat([data, forecast_df])
-
-# Interpolate to daily resolution
-full_daily = full_data.resample("D").interpolate(method="linear")
-
-# Plot
-plt.figure(figsize=(10, 6))
-plt.plot(data.index, data["Price"], label="Historical Prices", marker="o")
-plt.plot(forecast.index, forecast, label="12-Month Forecast", marker="x", color="green")
-plt.plot(
-    full_daily.index,
-    full_daily["Price"],
-    label="Interpolated Daily Estimate",
-    alpha=0.3,
-    color="gray",
-)
-plt.title("Natural Gas Prices: Holt-Winters Forecast with Interpolation")
-plt.xlabel("Date")
-plt.ylabel("Price (USD)")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
+    plt.plot(
+        full_daily.index,
+        full_daily["Price"],
+        label="Interpolated Daily Estimate",
+        alpha=0.3,
+        color="gray",
+    )
+    plt.title("Natural Gas Prices: Holt-Winters Forecast with Interpolation")
+    plt.xlabel("Date")
+    plt.ylabel("Price (USD)")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
 
 
-# Example usage
+if __name__ == "__main__":
+    data = load_and_prepare_data("natural_gas_prices.csv")
+    forecast_df = fit_holt_winters(data)
+    _, full_daily = combine_and_interpolate(data, forecast_df)
+    plot_prices(data, forecast_df, full_daily)
 
-interpolated_input_date = "2023-11-15"  # Interpolated date
-interpolated_date_estimated_price = estimate_price(interpolated_input_date)
-print(
-    f"Estimated price on {interpolated_input_date}: ${interpolated_date_estimated_price:.2f}"
-)
-
-extrapolated_input_date = "2025-05-15"  # Extrapolated date
-extrapolated_date_estimated_price = estimate_price(extrapolated_input_date)
-print(
-    f"Estimated price on {extrapolated_input_date}: ${extrapolated_date_estimated_price:.2f}"
-)
+    # Example usage
+    for test_date in ["2023-11-15", "2025-05-15"]:
+        price = estimate_price(test_date, full_daily)
+        print(f"Estimated price on {test_date}: ${price:.2f}")
