@@ -15,6 +15,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
+import sys
+
+print(sys.executable)
+
 # Load and parse the CSV
 data = pd.read_csv("natural_gas_prices.csv")
 data["Date"] = pd.to_datetime(data["Date"])
