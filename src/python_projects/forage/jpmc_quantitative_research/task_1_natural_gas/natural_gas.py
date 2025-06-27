@@ -10,6 +10,7 @@ Your code should take a date as input and return a price estimate.
 Try to visualize the data to find patterns and consider what factors might cause the price of natural gas to vary. This can include looking at months of the year for seasonal trends that affect the prices, but market holidays, weekends, and bank holidays need not be accounted for.
 """
 
+from datetime import timedelta
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,8 +26,10 @@ data = data.dropna(subset=["Price"])
 # Normalize date values to avoid large numbers
 normalized_dates = (data.index - data.index.min()).days
 
-# Fit a polynomial to the historical data
-degree = 30
+# Fit a polynomial to the historical data.
+# A higher-degree polynomial can capture more complex trends, but it may also lead to overfitting.
+# I tried this with degree 70, which fits the historical data exceptionnally well, but the extrapolation becomes meaningless due to the volatility.
+degree = 5
 coefficients = np.polyfit(normalized_dates, data["Price"], deg=degree)
 polynomial = np.poly1d(coefficients)
 
@@ -47,10 +50,26 @@ def estimate_price(date):
     return polynomial(normalized_date)
 
 
-# Example usage
-input_date = "2023-06-15"
-estimated_price = estimate_price(input_date)
-print(f"Estimated price for {input_date}: ${estimated_price:.2f}")
+def extrapolate_future(data, polynomial, months=12):
+    """
+    Extrapolate natural gas prices for one year into the future.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the natural gas price data.
+        polynomial (np.poly1d): Polynomial object for extrapolation.
+        months (int): Number of months to extrapolate.
+
+    Returns:
+        pd.DataFrame: DataFrame containing extrapolated future prices.
+    """
+    future_dates = pd.date_range(
+        start=data.index.max() + timedelta(days=1), periods=months, freq="M"
+    )
+    future_normalized_dates = (future_dates - data.index.min()).days
+    future_prices = polynomial(future_normalized_dates)
+    future_data = pd.DataFrame({"Date": future_dates, "Price": future_prices})
+    return future_data
+
 
 # Visualize the historical data and polynomial fit
 plt.figure(figsize=(10, 6))
@@ -68,3 +87,8 @@ plt.ylabel("Price (USD)")
 plt.legend()
 plt.grid()
 plt.show()
+
+# Example usage
+input_date = "2023-06-15"
+estimated_price = estimate_price(input_date)
+print(f"Estimated price for {input_date}: ${estimated_price:.2f}")
