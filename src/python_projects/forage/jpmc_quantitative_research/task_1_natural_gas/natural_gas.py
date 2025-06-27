@@ -10,85 +10,90 @@ Your code should take a date as input and return a price estimate.
 Try to visualize the data to find patterns and consider what factors might cause the price of natural gas to vary. This can include looking at months of the year for seasonal trends that affect the prices, but market holidays, weekends, and bank holidays need not be accounted for.
 """
 
-from datetime import timedelta
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-# Load the CSV file containing natural gas prices
+# Load and parse the CSV
 data = pd.read_csv("natural_gas_prices.csv")
 data["Date"] = pd.to_datetime(data["Date"])
 data.set_index("Date", inplace=True)
 
-# Drop rows with missing values
-data = data.dropna(subset=["Price"])
+# Ensure data is sorted and monthly
+data = data.sort_index()
+data = data.resample("ME").mean()  # Fill any missing months safely
 
-# Normalize date values to avoid large numbers
-normalized_dates = (data.index - data.index.min()).days
+# Drop any remaining missing values just in case
+data = data.dropna()
 
-# Fit a polynomial to the historical data.
-# A higher-degree polynomial can capture more complex trends, but it may also lead to overfitting.
-# I tried this with degree 70, which fits the historical data exceptionnally well, but the extrapolation becomes meaningless due to the volatility.
-degree = 5
-coefficients = np.polyfit(normalized_dates, data["Price"], deg=degree)
-polynomial = np.poly1d(coefficients)
-
-
-# Function to estimate price for any date
-def estimate_price(date):
-    """
-    Estimate the price of natural gas for a given date using polynomial regression.
-
-    Args:
-        date (str or datetime): The date for which to estimate the price.
-
-    Returns:
-        float: The estimated price of natural gas.
-    """
-    date = pd.to_datetime(date)
-    normalized_date = (date - data.index.min()).days
-    return polynomial(normalized_date)
-
-
-def extrapolate_future(data, polynomial, months=12):
-    """
-    Extrapolate natural gas prices for one year into the future.
-
-    Args:
-        data (pd.DataFrame): DataFrame containing the natural gas price data.
-        polynomial (np.poly1d): Polynomial object for extrapolation.
-        months (int): Number of months to extrapolate.
-
-    Returns:
-        pd.DataFrame: DataFrame containing extrapolated future prices.
-    """
-    future_dates = pd.date_range(
-        start=data.index.max() + timedelta(days=1), periods=months, freq="M"
+# Check there's at least 24 months
+if len(data) < 24:
+    raise ValueError(
+        "At least 24 months of data required for seasonal Holt-Winters model."
     )
-    future_normalized_dates = (future_dates - data.index.min()).days
-    future_prices = polynomial(future_normalized_dates)
-    future_data = pd.DataFrame({"Date": future_dates, "Price": future_prices})
-    return future_data
 
+# Fit Holt-Winters model with additive seasonality
+model = ExponentialSmoothing(
+    data["Price"], trend="add", seasonal="add", seasonal_periods=12
+)
+fit = model.fit()
 
-# Visualize the historical data and polynomial fit
+# Forecast next 12 months
+forecast = fit.forecast(12)
+forecast_df = forecast.to_frame(name="Price")
+
+# Combine historical and forecasted data
+full_data = pd.concat([data, forecast_df])
+
+# Interpolate to daily resolution
+full_daily = full_data.resample("D").interpolate(method="linear")
+
+# Plot
 plt.figure(figsize=(10, 6))
 plt.plot(data.index, data["Price"], label="Historical Prices", marker="o")
+plt.plot(forecast.index, forecast, label="12-Month Forecast", marker="x", color="green")
 plt.plot(
-    data.index,
-    polynomial(normalized_dates),
-    label="Polynomial Fit",
-    color="red",
-    linestyle="--",
+    full_daily.index,
+    full_daily["Price"],
+    label="Interpolated Daily Estimate",
+    alpha=0.3,
+    color="gray",
 )
-plt.title("Natural Gas Prices with Polynomial Fit")
+plt.title("Natural Gas Prices: Holt-Winters Forecast with Interpolation")
 plt.xlabel("Date")
 plt.ylabel("Price (USD)")
+plt.grid(True)
 plt.legend()
-plt.grid()
+plt.tight_layout()
 plt.show()
 
+
+# Function to estimate price for any date (with interpolation)
+def estimate_price(date_input):
+    """
+    Estimate the natural gas price for any date using interpolated values.
+
+    Args:
+        date_input (str or datetime): Date for which to estimate price.
+
+    Returns:
+        float: Estimated price (interpolated if needed), or np.nan if out of range.
+    """
+    date = pd.to_datetime(date_input)
+    if date in full_daily.index:
+        return full_daily.loc[date, "Price"]
+    elif full_daily.index.min() <= date <= full_daily.index.max():
+        return np.interp(
+            date.timestamp(),
+            full_daily.index.astype(np.int64) // 10**9,
+            full_daily["Price"].values,
+        )
+    else:
+        return np.nan
+
+
 # Example usage
-input_date = "2023-06-15"
-estimated_price = estimate_price(input_date)
-print(f"Estimated price for {input_date}: ${estimated_price:.2f}")
+input_date = "2025-05-15"
+estimated = estimate_price(input_date)
+print(f"Estimated price on {input_date}: ${estimated:.2f}")
