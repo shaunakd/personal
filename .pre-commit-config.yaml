@@ -29,7 +29,7 @@ repos:
     rev: v1.7.7  # Use the latest stable version or your preferred version
     hooks:
       - id: docformatter
-        args: ["--in-place", "--wrap-summaries=72", "--wrap-descriptions=72"]
+        args: ["--in-place", "--wrap-summaries=180", "--wrap-descriptions=180", "--make-summary-multi-line"]
 
   # for C++
   - repo: https://github.com/pre-commit/mirrors-clang-format
