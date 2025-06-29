@@ -1,13 +1,14 @@
-"""
-After asking around for the source of the existing data, you learn that the current process is to take a monthly snapshot of prices from a market data provider, which represents the market price of natural gas delivered at the end of each calendar month. This data is available for roughly the next 18 months and is combined with historical prices in a time series database. After gaining access, you are able to download the data in a CSV file.
+"""After asking around for the source of the existing data, you learn that the current process is to take a monthly snapshot of prices from a market data provider, which represents
+the market price of natural gas delivered at the end of each calendar month. This data is available for roughly the next 18 months and is combined with historical prices in a time
+series database. After gaining access, you are able to download the data in a CSV file.
 
-You should use this monthly snapshot to produce a varying picture of the existing price data, as well as an extrapolation for an extra year, in case the client needs an indicative price for a longer-term storage contract.
+You should use this monthly snapshot to produce a varying picture of the existing price data, as well as an extrapolation for an extra year, in case the client needs an indicative
+price for a longer-term storage contract.
 
-Download the monthly natural gas price data.
-Each point in the data set corresponds to the purchase price of natural gas at the end of a month, from 31st October 2020 to 30th September 2024.
-Analyze the data to estimate the purchase price of gas at any date in the past and extrapolate it for one year into the future.
-Your code should take a date as input and return a price estimate.
-Try to visualize the data to find patterns and consider what factors might cause the price of natural gas to vary. This can include looking at months of the year for seasonal trends that affect the prices, but market holidays, weekends, and bank holidays need not be accounted for.
+Download the monthly natural gas price data. Each point in the data set corresponds to the purchase price of natural gas at the end of a month, from 31st October 2020 to 30th
+September 2024. Analyze the data to estimate the purchase price of gas at any date in the past and extrapolate it for one year into the future. Your code should take a date as
+input and return a price estimate. Try to visualize the data to find patterns and consider what factors might cause the price of natural gas to vary. This can include looking at
+months of the year for seasonal trends that affect the prices, but market holidays, weekends, and bank holidays need not be accounted for.
 """
 
 import pandas as pd
@@ -16,8 +17,10 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
-def load_and_prepare_data(csv_path):
-    """Load, parse, and prepare the monthly natural gas price data."""
+def load_and_prepare_data(csv_path) -> pd.DataFrame:
+    """
+    Load, parse, and prepare the monthly natural gas price data.
+    """
     data = pd.read_csv(csv_path)
     data["Date"] = pd.to_datetime(data["Date"], format="%m/%d/%y")
     data.set_index("Date", inplace=True)
@@ -27,8 +30,10 @@ def load_and_prepare_data(csv_path):
     return data
 
 
-def fit_holt_winters(data):
-    """Fit Holt-Winters model and forecast next 12 months."""
+def fit_holt_winters(data) -> pd.DataFrame:
+    """
+    Fit Holt-Winters model and forecast next 12 months.
+    """
     if len(data) < 24:
         raise ValueError(
             "At least 24 months of data required for seasonal Holt-Winters model."
@@ -43,15 +48,16 @@ def fit_holt_winters(data):
 
 
 def combine_and_interpolate(data, forecast_df):
-    """Combine historical and forecasted data, interpolate to daily resolution."""
+    """
+    Combine historical and forecasted data, interpolate to daily resolution.
+    """
     full_data = pd.concat([data, forecast_df])
     full_daily = full_data.resample("D").interpolate(method="linear")
-    return full_data, full_daily
+    return full_daily
 
 
 def estimate_price(date_input, full_daily):
-    """
-    Estimate the natural gas price for any date using interpolated values.
+    """Estimate the natural gas price for any date using interpolated values.
 
     Args:
         date_input (str or datetime): Date for which to estimate price.
@@ -73,7 +79,9 @@ def estimate_price(date_input, full_daily):
 
 
 def plot_prices(data, forecast, full_daily):
-    """Plot historical, forecasted, and interpolated daily prices."""
+    """
+    Plot historical, forecasted, and interpolated daily prices.
+    """
     plt.figure(figsize=(10, 6))
     plt.plot(data.index, data["Price"], label="Historical Prices", marker="o")
     plt.plot(
@@ -102,7 +110,7 @@ def plot_prices(data, forecast, full_daily):
 if __name__ == "__main__":
     data = load_and_prepare_data("natural_gas_prices.csv")
     forecast_df = fit_holt_winters(data)
-    _, full_daily = combine_and_interpolate(data, forecast_df)
+    full_daily = combine_and_interpolate(data, forecast_df)
     plot_prices(data, forecast_df, full_daily)
 
     # Example usage
