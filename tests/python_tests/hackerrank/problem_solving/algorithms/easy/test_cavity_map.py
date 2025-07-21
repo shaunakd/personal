@@ -9,16 +9,6 @@ pytestmark = pytest.mark.unit
 
 
 @pytest.mark.parametrize(
-    "grid, expected_output",
-    [
-        pytest.param(["989", "191", "111"], ["989", "1X1", "111"], id="simple_case"),
-    ],
-)
-def test_cavity_map(grid, expected_output):
-    assert cavity_map(grid) == expected_output
-
-
-@pytest.mark.parametrize(
     "grid, i, j, expected_output",
     [
         pytest.param(
@@ -31,3 +21,13 @@ def test_cavity_map(grid, expected_output):
 )
 def test_get_adjacent_cells(grid, i, j, expected_output):
     assert get_adjacent_cells(grid, i, j) == expected_output
+
+
+@pytest.mark.parametrize(
+    "grid, expected_output",
+    [
+        pytest.param(["989", "191", "111"], ["989", "1X1", "111"], id="simple_case"),
+    ],
+)
+def test_cavity_map(grid, expected_output):
+    assert cavity_map(grid) == expected_output
