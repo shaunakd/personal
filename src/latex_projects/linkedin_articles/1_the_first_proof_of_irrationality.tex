@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{xunicode, amsmath, amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[none]{hyphenat}
+
+\title{The First Proof of Irrationality}
+\author{Shaunak Desai}
+\date{20 July 2025}
+
+\begin{document}
+
+\maketitle
+\section*{Background}
+
+We have all heard of fractions. $\frac{1}{2}$, $\frac{2}{3}$, $\frac{4}{7}$ are all examples; even integers can be expressed as fractions. They are comforting. Reasonable. Intuitive. Many among us would gladly eat half of a pizza, or two thirds if it is from Domino’s. We probably understand what “half of a pizza” or “four fifths of a cake” mean. We can perform simple arithmetic with fractions. So is it impossible to imagine that at one point, we believed that every number could be written as a fraction?
+\\
+\\
+By “we”, I refer to a group of followers of a certain philosopher in Ancient Greece who popularised a certain theorem about right angled triangles. Of course, I am talking about Pythagoras, whose followers were characteristically known as the Pythagoreans. (Incidentally, Pythagoras did not invent Pythagoras’ theorem - it was known for centuries - but he provided the first proof). One of the primarily beliefs of the Pythagoreans was that every number in existence could be expressed as a fraction; given a unit length, I could carry out any one of the arithmetic operations on that length and I would have a length that could be expressed as a fraction. That was the belief.
+\\
+\\
+One particular follower, by the name of Hippasus, came across a problem. The irony was, it was the theorem of their leader, Pythagoras himself, that was the reason for this problem. He began with unit lengths for each of the right angled triangles and proceeded to attempt to find a fraction that could accurately represent the hypotenuse. No matter how hard he tried, he could not find one. What is the value of the hypotenuse in this case? Well by the theorem, $1^2+1^2=2$, so the hypotenuse must be $\sqrt{2}$. Hippasus decided that enough was enough, that if it was so irrationally (!) difficult to find a fraction to represent $\sqrt{2}$, he would prove it was impossible.
+
+\newpage
+\section*{The Proof}
+
+Now let us get into the mathematics. What Hippasus used to prove his theory is a technique used all throughout history and across endless fields of maths. He wanted to prove that representing $\sqrt{2}$ as a fraction was impossible? He would assume that it was in fact possible and use perfectly legal methods to conclude a nonsensical result. Thus, since all steps taken were rigorous, the first assertion must be false and therefore the opposite true. This is known as a \textbf{proof by contradiction}.
+
+We begin by assuming that $\sqrt{2}$ can be represented by a fraction. As we have slightly more sophisticated methods than the Ancient Greeks (who didn’t have algebra), let us employ them and write an equation:
+
+$$ \sqrt{2} = \frac{p}{q} $$
+
+So far so good. There are two further assumptions we need to make about these mysterious numbers. The first is that to be rigorous, we must assert that $q \neq 0$ - division by zero is, shall we say, its own story in maths. The second is to realise that fractions are not unique. For example, $\frac{5}{10} = \frac{7}{14}$. So a number does not have a unique fractional representation; what it does have, is a unique representation of a fraction in its simplest form. Mathematically, this occurs when $p$ and $q$ are coprime, i.e. when they share no common factors other than 1. Let us collate all of our assumptions algebraically:
+
+$$ \sqrt{2} = \frac{p}{q} $$
+where $q \neq 0$ and $p$ and $q$ are coprime.
+
+When manipulating an equation, it is often wise to try to remove any radicals (square roots, cube roots, etc) and fractions. Let us proceed with this in mind:
+
+$$ 2 = \frac{p^2}{q^2} $$
+
+$$ p^2 = 2q^2 $$
+
+Here, we can reach a conclusion. $p^2$ is a multiple of 2; in other words it is even. Therefore $p$ itself must be even. So far, nothing nonsensical. Let us apply our conclusion algebraically:
+
+Let $p = 2c$ for some integer $c$.
+
+If we were discovering this proof ourselves, we might wonder if we could reach a similar conclusion for $q$ using our conclusion for $p$. Let us find out:
+
+\begin{align*}
+    (2c)^2 &= 2q^2 \\
+    4c^2 &= 2q^2 \\
+    2c^2 &= q^2
+\end{align*}
+
+By the same reasoning as before, $q$ must also be even. Is this a problem?
+
+Yes! Recall our earlier assumption: $p$ and $q$ are coprime. This is a reasonable assumption, since every fraction can be written in its simplest form. However, we have now concluded that both $p$ and $q$ are even, so they share a common factor of $2$ and are therefore not coprime. The fraction $\frac{p}{q}$ can be simplified, contradicting our assumption that it was already in simplest form. Thus, we have reached a contradiction. Since all steps in our proof were valid, our initial assertion must be false: $\sqrt{2}$ cannot be written as a fraction. Such numbers are called \textbf{irrational numbers}.
+
+After Hippasus presented this proof to the Pythagoreans, legend has it that he was never heard from again. Make of that what you will\ldots
+
+\section*{Next Steps}
+
+Excellent. We have proved that $\sqrt{2}$ is irrational. Is that the end? Not quite---there are further directions to explore:
+
+\begin{itemize}
+    \item $\sqrt{2}$ does not seem particularly special. A similar argument can be used to prove the irrationality of $\sqrt{3}$, for example.
+    \item This proof does not work for all irrational numbers, especially those that are not surds (numbers of the form $\sqrt{n}$ for integer $n$). For famous constants like $\pi$ and $e$, different proofs are required.
+    \item Irrational numbers are a special case. Suppose we have a number $x$. To say $x$ is irrational means the equation $x = \frac{p}{q}$ has no integer solutions for $p$ and $q$. Rearranging, $px - q = 0$, and letting all constants be positive without loss of generality, this is a linear equation in $x$ with integer coefficients.
+
+    We can generalise: what about numbers that are not solutions to any quadratic equation (i.e. of the form $ax^2 + bx + c = 0$) with integer coefficients? Or, more generally, numbers that are not solutions to any polynomial equation with integer coefficients? Such numbers are called \textbf{transcendental numbers}, as they transcend algebraic equations.
+\end{itemize}
+
+What should we take away from this? Even if the Ancient Greek gods may not have liked being contradicted, we should always push the boundaries of what we know. Once we have pushed, we keep going---after all, transcendental numbers are even more fascinating than irrational numbers!
+
+\bigskip
+
+\noindent\textbf{Questions to ponder:}
+\begin{enumerate}
+    \item Would the proof for $\sqrt{2}$ work for $\sqrt{4}$? Try it yourself.
+    \item $e$ was the first number proved to be transcendental. In fact, $e^a$ is transcendental for any algebraic number $a$. Can you use Euler's identity $e^{i\pi} = -1$ to prove that $\pi$ is transcendental?
+\end{enumerate}
+
+\end{document}
