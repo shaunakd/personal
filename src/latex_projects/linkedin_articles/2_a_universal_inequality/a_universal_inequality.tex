@@ -1,0 +1,169 @@
+\documentclass{article}
+\usepackage{xunicode, amsmath, amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[none]{hyphenat}
+
+\title{A Universal Inequality}
+\author{Shaunak Desai}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Historical Background}
+
+I will not hold you in suspense - the inequality we will be looking at is the Cauchy-Schwarz Inequality. Why, then, have I titled this article “A Universal Inequality”? The answer to this question lies in part due to the sheer volume of applications this simple inequality has, ranging across a vast number of different fields in mathematics, and not out of a pun on the Cauchy-Schwarz Inequality having something to do with the universe (!), which it does not. Excellent… why two names? Linking back to the different applications, each version of the inequality takes a form depending on the field used, but it began with sums and integrals.
+
+The story of the original proofs begin with three mathematicians: Augustin-Louis Cauchy, Viktor Bunyakovsky and Hermann Schwarz. Already, you will have noticed that poor Bunyakovsky does not get credited in the inequality's name; let us see why that is. In 1821, Cauchy published the original inequality for sums
+
+\[
+\left( \sum_{i=1}^n a_i b_i \right)^2 \leq \left( \sum_{i=1}^n a_i^2 \right) \left( \sum_{i=1}^n b_i^2 \right)
+\]
+
+in his work, Cours d'Analyse de l'Ecole Royale, and proved it, because you cannot publish a result in a fancy book without proving it. Therefore it is only fair for him to get a mention after so much effort on one result! Next, Bunyakovsky extended the inequality to integrals in 1859, which brings us to why he is often uncredited: he did not publish a corresponding proof. It took another 29 years, until 1888, for Schwarz to prove the integral version of the inequality
+
+\[
+\left( \int_a^b f(x)g(x)\,dx \right)^2 \leq \left( \int_a^b f(x)^2\,dx \right) \left( \int_a^b g(x)^2\,dx \right)
+\]
+
+thus giving rise to its name. Some textbooks call it the Cauchy-Bunyakovsky-Schwarz inequality, but for brevity's sake and in favour of the more popular form, I shall proceed with Cauchy-Schwarz.
+
+\section*{Mathematical Background}
+
+First, we should consider a more overarching definition of the inequality. If I went into full detail of the mathematical background behind it, you would be reading this tomorrow still, so I will attempt to give you the intuition behind some of the concepts.
+
+In mathematics, there is a notion of a vector space and a field. Vectors in advanced mathematics are less to do with the traditional “magnitude and direction” and more to do with sets of self-contained mathematical objects/values that satisfy two main rules: vector addition and scalar multiplication. By self-contained, I mean that any operation you perform on some values in that set will never output a values outside of the set. Ordinary n-dimensional vectors satisfy this, such as {vector (2,1)} or {vector (1,0,1)}, but there are other non-conventional examples of vector spaces too, such as continuous functions, matrices or even the real numbers. The scalars come from a field, where the requirement is that the four operations may be applied normally; the field is usually the real numbers (R) or complex numbers (C).
+
+Often coupled with a vector space is what is known as an inner product, the notation for which is <x,y> for two vectors x, y in the vector space. The inner product must satisfy the following rules:
+
+The inner product must satisfy the following properties:
+
+\begin{align*}
+    &\text{Conjugate symmetry:} && \langle v, w \rangle = \overline{\langle w, v \rangle} \\
+    &\text{Positive definiteness:} && \langle v, v \rangle > 0 \quad \text{for } v \neq 0 \\
+    &\text{Bilinearity:} && \langle au + bv, w \rangle = a\langle u, w \rangle + b\langle v, w \rangle \\
+    &&& \langle u, av + bw \rangle = a\langle u, v \rangle + b\langle u, w \rangle
+\end{align*}
+
+If the field of scalars is real, then conjugate symmetry is simplified to symmetry. I encourage you to convince yourself that the scalar product, or dot product, on is a valid inner product in the vector space of n-dimensional vectors.
+
+The Cauchy-Schwarz inequality is a statement about the sizes of vectors. As we have generalised the concept of a ``vector'', let us also generalise the notion of the size of a vector. In a two-dimensional coordinate plane, the size (or magnitude) of a vector $\mathbf{v} = (x, y)$ is given by $\sqrt{x^2 + y^2}$. This extends naturally to coordinate spaces of higher dimensions. However, we wish to extend our definition of size to any vector space. To do this, let us relate the $n$-dimensional magnitude to the dot product:
+
+\[
+|\mathbf{v}| = \sqrt{\mathbf{v} \cdot \mathbf{v}}
+\]
+
+Notice now that this definition of magnitude no longer relies on the coordinates of v. We may now naturally extend this to define a size of a vector given any inner product. This size of called the norm of a vector and is written as
+
+\[
+\|v\| = \sqrt{\langle v, v \rangle}
+\]
+
+The choice of emboldening the v in the case of coordinate planes, but not in vector spaces is due to convention. Vectors in vector spaces are often not emboldened in texts.
+
+You might like to think about why we don't have to worry about taking the square root of a negative number.
+
+And now, finally, we are ready for a generalised statement of the Cauchy-Schwarz Inequality and not one, not two proofs!
+
+\section*{A Proof}
+
+Let $v, w \in V$ (some vector space) coupled with an inner product. Then the Cauchy-Schwarz Inequality tells us that
+
+\[
+|\langle v, w \rangle| \leq \|v\| \|w\|
+\]
+
+where equality occurs if and only if v and w are linearly dependent. The inequality is far-reaching to the point that there is a vast number of proofs, so unfortunately for my enthusiasm (!) I will share a particularly concise proof which, in terms of the algebra, uses little more than school-level maths.
+
+If we consider the expanded form
+
+\[
+|\langle v,w \rangle|^2 \leq \langle v,v \rangle \langle w,w \rangle
+\]
+
+We see an expression involving a product of two terms, and notions of squares of those two terms. This might lead us to think, oh, quadratic! Could we use what we know of quadratics? Well, $\|v+w\|^2$ seems like a natural extension of a binomial expansion to norms, so let us see what this gets us. Recalling that $\|v+w\|^2 \geq 0$, we get:
+
+\begin{align*}
+0 &\leq \|v+w\|^2
+    && \\
+  &= \langle v+w, v+w \rangle
+    && \\
+  &= \langle v, v \rangle + \langle v, w \rangle + \langle w, v \rangle + \langle w, w \rangle
+    && \text{(bilinearity)} \\
+  &= \langle v, v \rangle + \langle v, w \rangle + \overline{\langle v, w \rangle} + \langle w, w \rangle
+    && \text{(conjugate symmetry)} \\
+  &= \|v\|^2 + 2\mathrm{Re}(\langle v, w \rangle) + \|w\|^2
+    && \text{(property of complex numbers)} \\
+  &\leq \|v\|^2 + 2|\langle v, w \rangle| + \|w\|^2
+    && \text{(property of complex numbers)}
+\end{align*}
+
+Ok, we seemingly have a quadratic. However, this seems to be a quadratic in two variable, which is not so easy to analyse. Well, if we want something in maths, we could... invent it! In fact, this is in fact a common technique, to shoehorn in an unwanted variable which will yield us what we wish for if we ask it nicely (!).
+
+Let $t \in \mathbb{R}$ be this variable and let us consider instead $\|tv+w\|$. Now, the algebraic manipulation gets us
+
+\begin{align*}
+0 &\leq \| t v + w \|^2 \\
+    &= \langle t v + w, t v + w \rangle
+        && \text{(by definition of norm)} \\
+    &= t^2 \langle v, v \rangle + t \langle v, w \rangle + t \langle w, v \rangle + \langle w, w \rangle
+        && \text{(bilinearity)} \\
+    &= t^2 \langle v, v \rangle + t \langle v, w \rangle + t \overline{\langle v, w \rangle} + \langle w, w \rangle
+        && \text{(conjugate symmetry)} \\
+    &= \|v\|^2 t^2 + 2 \mathrm{Re}(\langle v, w \rangle) t + \|w\|^2
+        && \text{(property of complex numbers)} \\
+    &\leq \|v\|^2 t^2 + 2 |\langle v, w \rangle| t + \|w\|^2
+        && \text{(triangle inequality)}
+\end{align*}
+
+Excellent, now I have a quadratic in the variable t. What properties do I know of a quadratic? Oh yes, the discriminant. Since we know the quadratic is nonnegative, it must have either one solutions or no solutions, which means a nonpositive discriminant:
+
+\begin{align*}
+    4\langle v, w \rangle^2 - 4\|v\|^2 \|w\|^2 &\leq 0 \\
+    4\langle v, w \rangle^2 &\leq 4\|v\|^2 \|w\|^2 \\
+    \langle v, w \rangle^2 &\leq \|v\|^2 \|w\|^2 \\
+    |\langle v, w \rangle| &\leq \|v\| \|w\|
+\end{align*}
+
+and we are done!
+
+\section*{Next Steps}
+
+At first glance, the Cauchy-Schwarz Inequality may appear to be a niche or arbitrary result. What is its use? Where can we go from here? One might make a similar argument about Pythagoras' Theorem—after all, it is also a statement about two quantities—yet no one would deny its far-reaching consequences in mathematics. Part of the reason we are so familiar with Pythagoras' Theorem is due to its emphasis in school curricula.
+
+For instance, the Cauchy-Schwarz Inequality has important applications in probability theory. If we let $X$ and $Y$ be random variables and define the expectation as the inner product (which is valid), then the inequality yields
+
+\[
+(\mathbb{E}[XY])^2 \leq \mathbb{E}[X^2]\,\mathbb{E}[Y^2]
+\]
+
+By doing apparently no work, we have a statement about how the means of random variables relate to each other.
+
+Additionally, you might recall a second definition of the dot product in 2D or 3D coordinates
+
+\[
+\mathbf{v} \cdot \mathbf{w} = |\mathbf{v}|\,|\mathbf{w}|\,\cos\theta
+\]
+
+where $\theta$ is the angle between the vectors. An “angle between vectors” is easy to intuit in 2D or 3D, but what about for more dimensions, or even for general vector spaces? Well, rearranging the definition and substituting in the notation of norms and inner products, we get
+
+\[
+\cos\theta = \frac{\langle v, w \rangle}{\|v\|\,\|w\|}
+\]
+
+In fact this is used to define an angle between vectors in general for a vector space. A potential obstacle, however, is that cosine only gives values between -1 and 1. Could this be a problem here? No, because the Cauchy-Schwarz inequality tells us that
+
+\[
+\frac{\langle v, w \rangle}{\|v\|\,\|w\|} \leq 1
+\]
+
+so we are safe.
+
+While Cauchy, Bunyakovsky and Schwarz did not thankfully suffer the fate of Hippasus, it is important to understand that in order to make your mark in mathematics, it is not always enough to make a statement or a conjecture, but you have to justify it rigorously. Some of you may think of mathematicians such as Riemann, who conjectured the famous Riemann Hypothesis, without proving it; Riemann and other such mathematicians had already made a name for himself as a mathematician by then. Conjectures made by these mathematicians are taken more as deep, impenetrable insights, proving which are a goal for succeeding generations of mathematicians, rather than a passing thought on the subject.
+
+This is no different to any other aspect of life. Whether it be an academic paper, a political debate or just a normal conversation, one can't simply make an assertion without proof. Our entire legal system is based on his premise too; innocent until proven guilty. So let us try to be more like Cauchy and Schwarz and explain our thought processes, rather than Vicky whose contribution to this inequality is sadly little recognised.
+
+(I know fully well I am not quite doing Bunyakovsky justice (!) - he was a prolific mathematician in his own right!)
+
+\end{document}
