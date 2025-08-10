@@ -1,0 +1,344 @@
+\documentclass{article}
+\usepackage{xunicode, amsmath, amssymb}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[none]{hyphenat}
+
+\title{Every Function is a Polynomial... almost}
+\author{Shaunak Desai}
+\date{10 August 2025}
+
+\begin{document}
+
+\maketitle
+\section*{Why polynomials?}
+
+In mathematics, there are many kinds of so-called “classical functions”. Some of the most well-known examples are polynomials, exponentials, trigonometric and logarithmic functions, to name a few. So then why, in the title, am I positing that every function is almost a polynomial?
+
+While this idea does have some caveats regarding the radius of convergence, which can depend on the function being approximated, the idea we are basing this off is that polynomials are usually easier to deal with than most functions, computationally speaking. It is easier to visualise an expression looking like $x^n$ rather than an expression looking like $\sin(x)$ or $\cos(x)$. So, it would be quite nice if we could approximate, say, $\cos(x)$ with a polynomial, would it not?
+
+\section*{Background}
+
+Spoiler alert: yes we can. We approximate functions by constructing what is known as a Taylor series, a result dates back mainly to two mathematicians: James Gregory and Brook Taylor. Despite the name “Taylor series”, it was Gregory who, in 1651 first discovered some series of polynomials approximating specific functions, including tan(x), arctan(x) and sec(x), among others. But, he never described his method for doing so, merely writing his discoveries down in a letter to a colleague. It was Taylor who, in 1715, published a formal general statement of the method for constructing the series, along with a rigorous proof, thus giving rise to the name Taylor series.
+
+\newpage
+\section*{The method: approximating cos(x)}
+
+So that I may go into full detail with both the intuition and the rigorous proof, I will split my writing on this subject over two weeks. In this article, I will go over a heuristic approach of formulating Taylor series, focusing on the specific example of approximating $cos(x)$ via a series of polynomials. You will see how the method can be generalised to any function and any location (you will understand what this means later).
+
+Below is a graph of $\cos(x)$:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    \draw[->] (-4,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-1.2) -- (0,1.2) node[above] {$y$};
+    \draw[domain=-3.5:3.5,smooth,variable=\x,blue,thick] plot ({\x},{cos(\x r)});
+    % x-axis ticks at multiples of pi/2
+    \foreach \k/\lbl in {-3.1416/-\pi, -1.5708/-\frac{\pi}{2}, 0/0, 1.5708/\frac{\pi}{2}, 3.1416/\pi}
+        \draw (\k,0.05) -- (\k,-0.05) node[below] {$\lbl$};
+    % y-axis ticks
+    \foreach \y in {-1,1}
+        \draw (0.05,\y) -- (-0.05,\y) node[left] {$\y$};
+    \node at (2,0.7) {$y = \cos(x)$};
+\end{tikzpicture}
+\end{center}
+
+In the field of analysis, which deals with fundamental mathematical results (and their proofs!), when we talk about approximating functions, we usually approximate the function at a single location.
+
+Let us begin approximating $\cos(x)$ near $x=0$. For the time being, we will focus on finding a quadratic approximation. By this, I mean I would like to find a quadratic function which approximates $\cos(x)$ near $x=0$. Let
+
+$$ Q(x) = a_0 + a_1 x + a_2 x^2 $$
+
+so that our objective is to find the best possible values for the coefficients $a_0$, $a_1$ and $a_2$ for $Q(x)$ to approximate $\cos(x)$.
+
+For the approximation to be any good, it should at least equal the value of $\cos(x)$ at $x=0$, right? Therefore we already know that:
+
+$$ Q(0) = \cos(0). $$
+
+Substituting in the expression for each, we get the first coefficient already:
+
+$$ a_0 = 1. $$
+
+so that our quadratic approximation is
+
+$$ Q(x) = 1 + a_1 x + a_2 x^2. $$
+
+and the graph of the approximation against $\cos(x)$ looks like this:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Axes
+    \draw[->] (-4,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-1.2) -- (0,1.2) node[above] {$y$};
+    % cos(x) curve
+    \draw[domain=-3.5:3.5,smooth,variable=\x,blue,thick] plot ({\x},{cos(\x r)});
+    % Q(x) = 1 curve
+    \draw[domain=-3.5:3.5,smooth,variable=\x,red,thick,dashed] plot ({\x},{1});
+    % x-axis ticks at multiples of pi/2
+    \foreach \k/\lbl in {-3.1416/-\pi, -1.5708/-\frac{\pi}{2}, 0/0, 1.5708/\frac{\pi}{2}, 3.1416/\pi}
+        \draw (\k,0.05) -- (\k,-0.05) node[below] {$\lbl$};
+    % y-axis ticks
+    \foreach \y in {-1,1}
+        \draw (0.05,\y) -- (-0.05,\y) node[left] {$\y$};
+    % Labels
+    \node[blue] at (2,0.7) {$y = \cos(x)$};
+    \node[red, above] at (2,1) {$y = 1$};
+\end{tikzpicture}
+\end{center}
+
+So far so good. But, you may notice, the line $y=1$ hardly behaves like $\cos(x)$ as we move away from $x=0$, so we need further improvements to our approximation. This brings us to how we shall find $a_1$. We have made it so that the values of $Q(x)$ and $\cos(x)$ are equal at $x=0$, but we also want the slopes of the two functions to be equal at $x=0$. The slope of a function at a point is given by the derivative of the function at that point, so we need to ensure that, but this is not enough. We need them to "behave" like each other at $x=0$.  Translating the word “behave” into the language of maths, when it comes to functions, means looking at how $y$ changes with respect to $x$ in both functions; in other words, analysing the respective gradients, or derivatives. We now know that we need to ensure that the derivatives of $Q(x)$ and $\cos(x)$ are equal at $x=0$. Since $\cos(x)$ differentiates to $-\sin(x)$ and $Q(x)$ differentiates to $Q'(x) = a_1 + 2a_2x$, this gives rise to the following:
+
+\begin{align*}
+    Q'(0) &= -\sin(0) \\
+    a_1 + 2a_2(0) &= 0 \\
+    a_1 &= 0
+\end{align*}
+
+What this tells us that the linear term of $Q(x)$ is zero; in other words we cannot improve upon our approximation via adding only a linear term. This is not bad news; in fact it is good, because the lack of $x$ term makes our quadratic approximation an even function (symmetric about the $y$ axis), just like $\cos(x)$. A lack of new information can still be new information!
+
+We now know that
+
+$$ Q(x) = 1 + a_2 x^2. $$
+
+At this point, you may have sensed a pattern. First we ensued that the values of the approximation and the function matched at $x=0$, then we ensured that the derivatives of the approximation and the function matched at $x=0$. What do you think would be a reasonable next step to improve our approximation (namely by finding $a_2$)?
+
+If you thought that we should ensure that the second derivatives of the approximation and the function match at $x=0$, you would be correct! The second derivative of $\cos(x)$ is $-\cos(x)$ and the second derivative of $Q(x)$ is $2a_2$. So, we have
+
+\begin{align*}
+    Q''(0) &= -\cos(0) \\
+    2a_2 &= -1 \\
+    a_2 &= -\frac{1}{2}
+\end{align*}
+
+So our quadratic approximation is
+
+$$
+Q(x) = 1 - \frac{1}{2}x^2.
+$$
+
+and the graph of this approximation against $\cos(x)$ looks like this:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Axes
+    \draw[->] (-4,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-1.2) -- (0,1.2) node[above] {$y$};
+    % cos(x) curve
+    \draw[domain=-3.5:3.5,smooth,variable=\x,blue,thick] plot ({\x},{cos(\x r)});
+    % Q(x) = 1 - 0.5 x^2 curve
+    \draw[domain=-2.1:2.1,smooth,variable=\x,red,thick,dashed] plot ({\x},{1 - 0.5*(\x)*(\x)});
+    % x-axis ticks at multiples of pi/2
+    \foreach \k/\lbl in {-3.1416/-\pi, -1.5708/-\frac{\pi}{2}, 0/0, 1.5708/\frac{\pi}{2}, 3.1416/\pi}
+        \draw (\k,0.05) -- (\k,-0.05) node[below] {$\lbl$};
+    % y-axis ticks
+    \foreach \y in {-1,1}
+        \draw (0.05,\y) -- (-0.05,\y) node[left] {$\y$};
+    % Labels
+    \node[blue] at (2,0.7) {$y = \cos(x)$};
+    \node[red, above] at (-2.5,0.7) {$y = 1 - \frac{1}{2}x^2$};
+\end{tikzpicture}
+\end{center}
+
+We have now found a quadratic approximation of $\cos(x)$ near $x=0$. Now, I am not sure about you, but this does not feel very "done". If you recall, the decision to form a quadratic approximation was arbitrary, and we could have chosen to form a cubic approximation instead. In fact, we could have chosen to form a polynomial of any degree! So, why stop here? Why not find a cubic approximation?
+
+In the spirit of finding polynomials of different degrees, let us quickly revise our notation of the polynomials. Let $P_2(x)$ be our $Q(x)$ from before, i.e. the quadratic approximation. Let $P_3(x)$ be our cubic approximation, so that
+
+$$ P_3(x) = a_0 + a_1 x + a_2 x^2 + a_3 x^3 $$
+
+Since the cubic approximation has to be at least as good as the quadratic approximation, we can use the coefficients of $P_2(x)$ as a starting point for $P_3(x)$. So, we have:
+
+$$ P_3(x) = 1 - \frac{1}{2} x^2 + a_3 x^3 $$
+
+In order to find $a_3$, the pattern of finding higher order derivatives continues. We need to ensure that the third derivatives of $P_3(x)$ and $\cos(x)$ match at $x=0$. The third derivative of $\cos(x)$ is $\sin(x)$, and the third derivative of $P_3(x)$ is $6a_3$. So, we have:
+
+\begin{align*}
+    P_3'''(0) &= \sin(0) \\
+    6a_3 &= 0 \\
+    a_3 &= 0
+\end{align*}
+
+So, our cubic approximation is
+
+$$
+P_3(x) = 1 - \frac{1}{2} x^2
+$$
+
+Why is $a_3$ zero like $a_1$? Because the cubic approximation is also an even function, just like the quadratic approximation. This is not a coincidence; in fact, it is a pattern that will continue for all even odd approximations of $\cos(x)$. Let us now find a quartic approximation, $P_4(x)$, after which I will generalise. Finding, as you might expect, the fourth order derivatives and substituting in $x = 0$, we get:
+
+\begin{align*}
+    P_4''''(0) &= \cos(0) \\
+    24a_4 &= 1 \\
+    a_4 &= \frac{1}{24}
+\end{align*}
+
+This means:
+
+$$
+P_4(x) = 1 - \frac{1}{2} x^2 + \frac{1}{24} x^4
+$$
+
+Let us visualise the quartic approximation against $cos(x)$:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Axes
+    \draw[->] (-4,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-1.2) -- (0,1.2) node[above] {$y$};
+    % cos(x) curve
+    \draw[domain=-3.5:3.5,smooth,variable=\x,blue,thick] plot ({\x},{cos(\x r)});
+    % P_4(x) = 1 - 0.5 x^2 + 1/24 x^4 curve
+    \draw[domain=-3.5:3.5,smooth,variable=\x,red,thick,dashed] plot ({\x},{1 - 0.5*(\x)*(\x) + (1/24)*(\x)*(\x)*(\x)*(\x)});
+    % x-axis ticks at multiples of pi/2
+    \foreach \k/\lbl in {-3.1416/-\pi, -1.5708/-\frac{\pi}{2}, 0/0, 1.5708/\frac{\pi}{2}, 3.1416/\pi}
+        \draw (\k,0.05) -- (\k,-0.05) node[below] {$\lbl$};
+    % y-axis ticks
+    \foreach \y in {-1,1}
+        \draw (0.05,\y) -- (-0.05,\y) node[left] {$\y$};
+    % Labels
+    \node[blue] at (2,0.7) {$y = \cos(x)$};
+    \node[red, above] at (-2.5,0.7) {$y = P_4(x)$};
+\end{tikzpicture}
+\end{center}
+
+Ok, we are at risk of falling down a rabbit hole of approximations. You may now see that a larger choice of polynomial degree will yield a better polynomial approximation of $\cos(x)$ near $x=0$. Keeping in mind that the approximations get better and better as n increases, if we let n tend to infinity, is it not a reasonable assumption that the "approximation" will equal $\cos(x)$ exactly?
+
+In fact, this is not only a reasonable assumption, but it is true! This gives rise to the Taylor series for cos(x), given by the limit to infinity of the Taylor polynomials:
+
+$$
+\cos(x) = 1 - \frac{1}{2}x^2 + \frac{1}{24}x^4 - \frac{1}{720}x^6 + \cdots
+$$
+
+Those of you who recognise factorials will see a very obvious pattern. Let us now see if we can find a general formula for all of the coefficients $a_k$ in the Taylor series for $\cos(x)$ and, later, for any function.
+
+\section*{The method: approximating any function}
+
+Consider the process of repeated differentiation of $x^n$:
+
+\begin{align*}
+    \frac{d}{dx} x^n &= n x^{n-1} \\
+    \frac{d^2}{dx^2} x^n &= n(n-1) x^{n-2} \\
+    \frac{d^3}{dx^3} x^n &= n(n-1)(n-2) x^{n-3} \\
+    &\vdots \\
+    \frac{d^k}{dx^k} x^n &= n(n-1)(n-2)\cdots(n-k+1) x^{n-k}
+\end{align*}
+
+What happens when $k=n$, i.e. when we differentiate $x^n$ $n$ times? We get
+
+\begin{align*}
+    \frac{d^n}{dx^n} x^n &= n(n-1)(n-2)\cdots(n-n+1) x^{n-n} \\
+    &= n(n-1)(n-2)\cdots(1) \\
+    &= n!
+\end{align*}
+
+Thus, the $n$th derivative of $x^n$ evaluated at $x=0$ is simply $n!$. Why is this relevant?
+
+Think back to when we found the coefficients of the quadratic approximation for cos(x). To find the $x$ coefficient, we took the first derivatives of both the approximation and the function. For the $x^2$ coefficient, we took the second derivatives, then divided by a number. For the $x^3$ coefficients, we took the third derivatives and divided by a number, and so on. In general, to find the $x^n$ coefficient, we must begin by taking the $n$th derivatives.
+
+We will now generalise the method to any function $f(x)$, not just $\cos(x)$. Instead of a quadratic approximation, or a cubic approximation, we will consider an infinite-degree polynomial approximating (in fact equalling) the function. Let $a_0, a_1, a_2, \ldots$ be the coefficients of the Taylor series for $f(x)$ at $x=0$, so that
+
+$$
+f(x) = \sum_{n=0}^{\infty} a_n x^n
+$$
+
+or, in expanded form,
+
+$$
+f(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n + a_{n+1} x^{n+1} + a_{n+2} x^{n+2} + \cdots
+$$
+
+Why did we go through the process of finding an expression for the $n$th derivative of $x^n$? Well, taking the $n$th derivative of the series eliminates all terms with degree less than $n$. We saw this earlier when taking the first derivative of the quadratic approximation of $\cos(x)$, which eliminated the constant term (i.e. the $x^0$ term). When finding the cubic approximation, taking the third derivative eliminated the constant and $x^2$ terms.
+
+This gives us:
+
+$$ f^{(n)}(x) = n! a_n + k_1 a_{n+1} x + k_2 a_{n+2} x^2 + \cdots $$
+
+where $k_1, k_2, \ldots$ are some constants in terms of $n$. Evaluating this at $x=0$ eliminates all terms with degree greater than $n$, in the same way that evaluating the first derivative of the quadratic approximation for $\cos(x)$ eliminated all terms with degree greater than 1. This leaves us with:
+
+\begin{align*}
+    f^{(n)}(0) &= n! a_n \\
+    a_n &= \frac{f^{(n)}(0)}{n!}
+\end{align*}
+
+We have found a general formula for the Taylor series of any function around $x=0$:
+
+$$
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!} x^n
+$$
+
+One quick note: remember when I said that the method can be generalised to any function and any "location"? The choice to approximate the Taylor polynomials around $x=0$ was arbitrary. We could have chosen to approximate around any point $x=a$ instead. Using the idea of transformations of functions, and considering our method of evaluating derivatives, we finally (!) get that the Taylor series for a function $f(x)$ around $x=a$ is given by
+
+$$
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!} (x-a)^n
+$$
+
+Whew!
+
+\section*{Next Steps}
+
+After all that, we have got there. Taylor series are one of the most powerful tools in mathematics. For example, "small-angle approximations" are merely Taylor series approximations of trigonometric functions. The Taylor series for $\sin(x)$ is used to determine the motion of a pendulum near the equilibrium position. Why near the equilibrium position? Because the Taylor series approximates the function near a single point, and the equilibrium position is the point where the pendulum is at rest.
+
+The Taylor series for $\cos(x)$ in summation form, around $x=0$, evaluates to be:
+
+$$
+\cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n}
+$$
+
+while for its sine counterpart, it evaluates to:
+
+$$
+\sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1}
+$$
+
+For the earlier example of the motion of a pendulum, we often approximate $\sin(x)$ by simply $x$ to simplify calculations. The Taylor series of $\sin(x)$ justifies this decision, though there are various other methods for proving that $\sin(x)$ behaves like $x$ near $x=0$. Here is a comparison of the graphs:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Axes
+    \draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};
+    \draw[->] (0,-3.5) -- (0,3.5) node[above] {$y$};
+    % sin(x) curve
+    \draw[domain=-3.1416:3.1416,smooth,variable=\x,blue,thick] plot ({\x},{sin(\x r)});
+    % y = x line
+    \draw[domain=-3.1416:3.1416,smooth,variable=\x,red,thick,dashed] plot ({\x},{\x});
+    % x-axis ticks at multiples of pi/2
+    \foreach \k/\lbl in {-3.1416/-\pi, -1.5708/-\frac{\pi}{2}, 0/0, 1.5708/\frac{\pi}{2}, 3.1416/\pi}
+        \draw (\k,0.1) -- (\k,-0.1) node[below] {$\lbl$};
+    % y-axis ticks at integer increments
+    \foreach \y in {-3,-2,-1,0,1,2,3}
+        \draw (0.1,\y) -- (-0.1,\y) node[left] {$\y$};
+    % Labels
+    \node[blue] at (3,1.2) {$y = \sin(x)$};
+    \node[red, right] at (3.2,3.2) {$y = x$};
+\end{tikzpicture}
+\end{center}
+
+Likewise, the small-angle approximation of $\cos(x)$, given the lack of a linear term, is often taken to be $1 - \frac{1}{2}x^2$.
+
+The Taylor series for $e^x$, in particular, is used in many fields, including physics and engineering, to model exponential growth and decay. Since $e^x$ differentiates to itself, all of the derivatives evaluated at 0 are equal to 1, giving rise to:
+
+$$
+e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!}
+$$
+
+A special case is when we substitute x=0, which gives us:
+
+\begin{align*}
+e &= \sum_{n=0}^{\infty} \frac{1}{n!} \\
+    &= 1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \cdots
+\end{align*}
+
+In other words, Taylor series can be used to prove that $e$ is the sum of reciprocals of factorials. Now that is cool!
+
+In the next article, I will go over a formal statement of Taylor's Theorem and a proof for it, using some advanced concepts such as the Mean Value Theorem. For now, I will leave you with the fully-justified title of this article: every function is a polynomial... almost!
+
+\subsection*{Questions to consider}
+
+\begin{enumerate}
+    \item What is the radius of convergence of a Taylor series?
+    \item Are there functions where the radius of convergence is limited, i.e. not all real numbers?
+    \item What happens if the function is not infinitely differentiable at the point of expansion?
+    \item Can you prove the Taylor series for $\sin(x)$?
+    \item Try to find some other Taylor series of common functions.
+\end{enumerate}
+
+\end{document}
