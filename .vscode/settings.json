@@ -11,4 +11,19 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-shell-escape", // HERE
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+        }
+    ],
 }
