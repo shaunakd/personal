@@ -1,0 +1,283 @@
+\documentclass{article}
+\usepackage{xunicode, amsmath, amssymb}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[none]{hyphenat}
+
+\title{Every Function is a Polynomial: Two Proofs}
+\author{Shaunak Desai}
+\date{31 August 2025}
+
+\begin{document}
+
+\maketitle
+\section*{Recap}
+
+In the previous article, we covered a heuristic formulation of Taylor series, where we may expand any suitably nice function $f(x)$ around a point $x=a$ via an infinite series of polynomials:
+
+$$
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!} (x-a)^n
+$$
+
+The Taylor series around $x=0$ is often known as the Maclaurin series, after the Scottish mathematician Colin Maclaurin, who used them in his \textit{Treatise of Fluxions} to analyse infinitely differentiable functions.
+
+(Incidentally, Maclaurin holds the record for the youngest maths professor in history, gaining the post of Professor of Mathematics at the University of Aberdeen at the age of 19. He held the record for youngest professor for almost three centuries, until it was broken in 2008 by Alia Sabur at the age of 18.)
+
+Some quick, but important, addendums:
+\begin{enumerate}
+    \item For a function's Taylor series to exist at a point $x=a$, it must be infinitely differentiable at that point. This may be obviously evident through the definition, but it is worth mentioning.
+    \item The so-called "0th derivative" of any function is taken to be the function itself; think of the 0th derivative as not taking the derivative in the first place. When the Taylor series is written in sigma notation, this corresponds to the $n=0$ term being the function itself evaluated at the point of expansion, i.e. $f(a)$.
+    \item Perhaps counterintuitively, a function's Taylor series need not necessarily converge to the function itself. A function $f(x)$ is \textbf{analytic} at a point $x=a$ if its Taylor series around $x=a$ converges to $f(x)$. For example, the function
+    $$
+    f(x) =
+    \begin{cases}
+    e^{-\frac{1}{x^2}} & \text{if } x \neq 0 \\
+    0 & \text{if } x = 0
+    \end{cases}
+    $$
+    is infinitely differentiable, but not analytic, at $x=0$. Evaluate some derivatives at $x=0$ to see why!
+\end{enumerate}
+
+\section*{The Mean Value Theorem and L'Hôpital's Rule}
+
+I will be covering two proofs of Taylor's Theorem, one using the Mean Value Theorem, and the other using L'Hôpital's Rule, both of which are widely-used and important in their own right.
+
+\subsection*{The Mean Value Theorem}
+
+Consider the following diagram:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Axes
+    \draw[->] (0,0) -- (5,0) node[right] {$x$};
+    \draw[->] (0,0) -- (0,3) node[above] {$y$};
+
+    % Points
+    \filldraw[blue] (1,1) circle (2pt) node[above left] {$(a, f(a))$};
+    \filldraw[red] (4,2.5) circle (2pt) node[right] {$(b, f(b))$};
+
+    % Convex curve: y = 0.2*(x-1)*(x-4) + 1 + 0.5*(x-1)
+    \draw[thick, domain=1:4, samples=100, smooth]
+        plot ({\x}, {0.2*(\x-1)*(\x-4)+1+0.5*(\x-1)});
+
+    % Dashed line connecting points
+    \draw[dashed] (1,1) -- (4,2.5);
+
+    % Tangent at x = 2.5
+    % Compute f(2.5) and f'(2.5)
+    % f(x) = 0.2*(x-1)*(x-4) + 1 + 0.5*(x-1)
+    % f(2.5) = 0.2*(1.5)*(-1.5) + 1 + 0.5*1.5 = 0.2*(-2.25) + 1 + 0.75 = -0.45 + 1 + 0.75 = 1.3
+    % f'(x) = 0.2*((x-1) + (x-4)) + 0.5 = 0.2*(2x-5) + 0.5 = 0.4x - 1 + 0.5 = 0.4x - 0.5
+    % f'(2.5) = 0.4*2.5 - 0.5 = 1 - 0.5 = 0.5
+    % Tangent line: y = f(2.5) + f'(2.5)*(x-2.5) = 1.3 + 0.5*(x-2.5)
+    \draw[orange, thick, domain=1:4, samples=2]
+        plot ({\x}, {1.3 + 0.5*(\x-2.5)});
+    % Mark the point of tangency
+    \filldraw[orange] (2.5,1.3) circle (2pt) node[below right] {$(c, f(c))$};
+\end{tikzpicture}
+\end{center}
+
+We have a function $f(x)$ that is continuous on the closed interval $[a, b]$. By a closed interval, we mean that the endpoints $a$ and $b$ are included in the interval. The function is also differentiable on the open interval $(a, b)$, meaning that the endpoints are not included in this case.
+
+(We cannot say that a function defined on an interval is differentiable at the endpoints, since the derivative at a point is defined as a limit from both sides of the point, and we cannot take a limit from outside the interval.)
+
+On the diagram, there is a point $c$ between $a$ and $b$ such that the tangent to the curve at $c$ is parallel to the chord connecting the points $(a, f(a))$ and $(b, f(b))$. The Mean Value Theorem states that such a point must always exist given the conditions stated above.
+
+Algebraically stated, the Mean Value Theorem says that for a function $f(x)$ that is continuous on $[a, b]$ and differentiable on $(a, b)$, there exists some $c \in (a, b)$ such that:
+
+$$f'(c) = \frac{f(b) - f(a)}{b - a}$$
+Like Taylor series, the Mean Value Theorem can be expressed in many different ways, including integrals. For this article, we will look at a more general version of the Mean Value Theorem known as \textbf{Cauchy's Mean Value Theorem}, which states that if two functions $f(x)$ and $g(x)$ are continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists some $c \in (a, b)$ such that:
+
+$$\frac{f'(c)}{g'(c)} = \frac{f(b) - f(a)}{g(b) - g(a)}$$
+
+To avoid the denominators being zero, it is enough to require that $g'(x) \neq 0$ for all $x \in (a, b)$. (If $g(a)=g(b)$, it leads to a contradiction related to $g'(x)$ being non-zero.)
+
+\subsection*{L'Hôpital's Rule}
+
+Consider the following limits:
+
+$$
+\lim_{x \to 0} \frac{0}{x}
+$$
+
+$$
+\lim_{x \to 0} \frac{x}{x}
+$$
+
+The first limit evaluates to 0 while the second limit evaluates to 1. Without simplifying, the limits lead to a $\frac{0}{0}$ situation. Since $\frac{0}{0}$ is not a number, and we cannot easily determine what it would evaluate to in a limit situation, we call this an \textbf{indeterminate form}. Other indeterminate forms include $\frac{\infty}{\infty}$, $0 \cdot \infty$, $\infty - \infty$, $0^0$, $1^\infty$ and $\infty^0$.
+
+L'Hôpital's Rule is a method to evaluate limits that result in indeterminate forms of the type $\frac{0}{0}$ or $\frac{\infty}{\infty}$. It states that if the functions $f(x)$ and $g(x)$ are differentiable in some interval around $a$, and $$\lim_{x \to a} f(x) = \lim_{x \to a} g(x) = 0$$ or $$\lim_{x \to a} f(x) = \lim_{x \to a} g(x) = \pm \infty$$ then
+
+$$
+\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}
+$$
+provided that the limit on the right hand side exists.
+
+The rule can be applied repeatedly if the resulting limit still evaluates to $\frac{0}{0}$ or $\frac{\infty}{\infty}$. This will be key for one of the proofs of Taylor's Theorem.
+
+(L'Hôpital's Rule was actually discovered by Johann Bernoulli, but it was named after the Marquis de l'Hôpital, to whom Bernoulli showed the rule and who paid Bernoulli for private lessons. He then included the rule in his book \textit{Analyse des Infiniment Petits} without giving Bernoulli any credit.)
+
+\newpage
+\section*{Taylor's Theorem}
+
+Recall how the Taylor polynomials $P_n(x)$ of a function $f(x)$ better approximate the function as the degree of the polynomial increases. For each polynomial, there is an associated remainder term $r_n(x,a)$ that quantifies the difference between the function and the polynomial:
+
+\begin{align*}
+r_n(x,a) &= f(x) - P_{n-1}(x) \\
+         &= f(x) - \sum_{k=0}^{n-1} \frac{f^{(k)}(a)}{k!} (x-a)^k
+\end{align*}
+
+The idea is that this remainder should tend to 0 as $n$ tends to infinity, i.e.
+
+$$
+\lim_{n \to \infty} r_n(x,a) = 0
+$$
+
+Among the many forms the remainder can take, we will look at two: the Lagrange form and the Peano form. Each form links to a different proof of Taylor's Theorem.
+
+\subsection*{Peano form of the remainder}
+
+Let $n \in \mathbb{N}$ and let $f(x)$ be a function that is $n$ times differentiable at $x=a$. There exists a function $q_n(x)$ such that
+$$
+f(x) = \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!} (x-a)^k + q_n(x) (x-a)^n
+$$
+and
+$$
+\lim_{x \to a} q_n(x) = 0
+$$
+
+Here, $r_n(x,a) = q_n(x) (x-a)^n$.
+
+\subsubsection*{Proof}
+
+The idea for this proof is repeated iterations of L'Hôpital's Rule. Rearranging the statement of the theorem, we have:
+
+$$
+q_n(x) = \frac{f(x) - P_{n}(x)}{(x-a)^n}
+$$
+where
+$$
+P_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!} (x-a)^k
+$$
+is the $n$th Taylor polynomial of $f(x)$ around $x=a$. The explicit formula for $P_n(x)$ is not strictly important; we will be using the property that the first $n$ derivatives of $f(x)$ and $P_n(x)$ are equal at $x=a$.
+
+To prove Taylor's Theorem, it is enough to show that $\lim_{x \to a} q_n(x) = 0$. Note that both the numerator and denominator tend to 0 as $x$ tends to $a$, so we can apply L'Hôpital's Rule. This gives us
+\begin{align*}
+\lim_{x \to a} q_n(x)
+    &= \lim_{x \to a} \frac{f(x) - P_{n}(x)}{(x-a)^n} \\
+    &= \lim_{x \to a} \frac{f'(x) - P_{n}'(x)}{n(x-a)^{n-1}}
+\end{align*}
+
+Notice that we may apply L'Hôpital's Rule again, since the numerator and denominator still both tend to 0 as $x$ tends to $a$. This gives us
+\begin{align*}
+\lim_{x \to a} q_n(x)
+    &= \lim_{x \to a} \frac{f'(x) - P_{n}'(x)}{n(x-a)^{n-1}} \\
+    &= \lim_{x \to a} \frac{f''(x) - P_{n}''(x)}{n(n-1)(x-a)^{n-2}}
+\end{align*}
+
+You may see a pattern emerging. In fact, we may apply L'Hôpital's Rule $n$ times in total, giving us
+\begin{align*}
+\lim_{x \to a} q_n(x)
+    &= \lim_{x \to a} \frac{f'(x) - P_{n}'(x)}{n(x-a)^{n-1}} \\
+    &= \lim_{x \to a} \frac{f''(x) - P_{n}''(x)}{n(n-1)(x-a)^{n-2}} \\
+    &\vdots \\
+    &= \lim_{x \to a} \frac{f^{(n)}(x) - P_{n}^{(n)}(x)}{n!} \quad \text{(taking $n$ derivatives)} \\
+    &= \frac{f^{(n)}(a) - P_{n}^{(n)}(a)}{n!} \\
+    &= \frac{f^{(n)}(a) - f^{(n)}(a)}{n!} \quad \text{(using the property of Taylor polynomials)} \\
+    &= 0
+\end{align*}
+
+Excellent! We have shown that $\lim_{x \to a} q_n(x) = 0$. However, there is one more caveat: $q_n(x)$ is not defined at $x=a$, since the denominator is $0$. To fix this, we can simply define $q_n(a)$ to be $\lim_{x \to a} q_n(x)$, which we have just proved is $0$. Therefore, if we define the function $q_n(x)$ as
+$$
+q_n(x) =
+\begin{cases}
+    \frac{f(x) - P_{n}(x)}{(x-a)^n} & \text{if } x \neq a \\
+    0 & \text{if } x = a
+\end{cases}
+$$
+then we have proved Taylor's Theorem!
+
+\subsection*{Lagrange form of the remainder}
+
+Now we will look at an explicit form of the remainder, known as the Lagrange form.
+
+Let $n \in \mathbb{N}$ and let $f(x)$ be a function that is $n$ times differentiable on $(a,x)$. There exists a value $c \in (a,x)$ such that
+
+\begin{align*}
+    f(x) &= \sum_{k=0}^{n-1} \frac{f^{(k)}(a)}{k!} (x-a)^k + \frac{f^{(n)}(c)}{n!} (x-a) \\
+    f(x) &= P_{n-1}(x) + \frac{f^{(n)}(c)}{n!} (x-a)
+\end{align*}
+
+Here, $r_n(x,a) = \frac{f^{(n)}(c)}{n!} (x-a)^n$. Note that if this equation for $f(x)$ is true, then $r_n(x,a) \to 0$ as $n \to \infty$, provided that $f^{(n)}(c)$ is bounded.
+
+\subsubsection*{Proof}
+
+The idea for this proof is to apply Cauchy's Mean Value Theorem. We make the somewhat arbitrary decision to define a function in terms of the "constant" $a$. This technique is generally known as "varying a constant".
+
+Define $F(t)$ by
+
+\begin{align*}
+F(t) &= f(t) + f'(t)(x-t) + \frac{f''(t)}{2!} (x-t)^2 + \ldots + \frac{f^{(n-1)}(t)}{(n-1)!} (x-t)^{n-1} \\
+    &= \sum_{k=0}^{n-1} \frac{f^{(k)}(t)}{k!} (x-t)^k
+\end{align*}
+for $t \in [a,x]$. Then $F(t)$ is continuous on $[a,x]$ and differentiable on $(a,x)$. (Notice that the $t$'s are in place of where we might expect the $a$'s)
+
+Let $G(t)$, to be chosen later, also be a function that is continuous on $[a,x]$ and differentiable on $(a,x)$. Then, by Cauchy's Mean Value Theorem, there exists some $c \in (a,x)$ such that
+
+$$
+\frac{F'(c)}{G'(c)} = \frac{F(x) - F(a)}{G(x) - G(a)}
+$$
+
+Differentiating $F(t)$, we have
+
+\begin{align*}
+F'(t) &= \sum_{k=0}^{n-1} \frac{f^{(k+1)}(t)}{k!} (x-t)^{k} + \sum_{k=1}^{n-1} \frac{f^{(k)}(t)}{k!}(-1)k(x-t)^{k-1} \quad \text{(product rule)} \\
+      &= \sum_{k=0}^{n-1} \frac{f^{(k+1)}(t)}{k!} (x-t)^{k} - \sum_{k=1}^{n-1} \frac{f^{(k)}(t)}{(k-1)!}(x-t)^{k-1} \\
+      &= \frac{f^{(n)}(t)}{(n-1)!} (x-t)^{n-1} \quad \text{(telescoping series)}
+\end{align*}
+so that
+
+$$
+\frac{F(x) - F(a)}{G(x) - G(a)} = \frac{F'(c)}{G'(c)} = \frac{\frac{f^{(n)}(c)}{(n-1)!} (x-c)^{n-1}}{G'(c)}
+$$
+
+Since $F(x) = f(x)$ and $F(a) = P_{n-1}(x,a)$, we have
+
+\begin{align*}
+    \frac{f(x) - P_{n-1}(x,a)}{G(x) - G(a)} &= \frac{f^{(n)}(c)}{(n-1)!} (x-c)^{n-1} \frac{1}{G'(c)} \\
+    f(x) - P_{n-1}(x) &= \frac{f^{(n)}(c)}{(n-1)!} \frac{G(x) - G(a)}{G'(c)} (x-c)^{n-1}  \\
+    f(x) &= P_{n-1}(x) + \frac{f^{(n)}(c)}{(n-1)!} \frac{G(x) - G(a)}{G'(c)} (x-c)^{n-1}
+\end{align*}
+
+So far so good! We have an equation in the form of the theorem, but with a more complicated remainder. In fact, this is a generalised remainder. For Lagrange's form, we choose $G(t) = (x-t)^n$, so that
+
+\begin{align*}
+    G'(t) &= -n(x-t)^{n-1} \\
+    G(x) - G(a) &= -(x-a)^n
+\end{align*}
+
+Substituting these into our equation for $f(x)$, we get
+
+\begin{align*}
+    f(x) &= P_{n-1}(x) + \frac{f^{(n)}(c)}{(n-1)!} \frac{-(x-a)^n}{-n(x-c)^{n-1}} (x-c)^{n-1} \\
+    &= P_{n-1}(x) + \frac{f^{(n)}(c)}{(n-1)!} \frac{(x-a)^n}{n(x-c)^{n-1}} \\
+    &= P_{n-1}(x) + \frac{f^{(n)}(c)}{n!} (x-a)^n
+\end{align*}
+
+and we have proved Taylor's Theorem again!
+
+\newpage
+\section*{Next Steps}
+
+Wow, that was a lot to digest. This should show you how the same theorem can not only be proven rigorously in different ways, but can be stated in different ways. Taylor's Theorem proves the existence of Taylor series, whose vast applications I encourage you to read again in my previous article!
+
+In the meantime, I will leave with you with some more questions to ponder:
+
+\subsection*{Questions to consider}
+
+\begin{enumerate}
+    \item Can you come up with any other forms of the remainder term?
+    \item How can we state Taylor's Theorem for functions of multiple variables? Could we prove it in similar ways?
+\end{enumerate}
+
+\end{document}
