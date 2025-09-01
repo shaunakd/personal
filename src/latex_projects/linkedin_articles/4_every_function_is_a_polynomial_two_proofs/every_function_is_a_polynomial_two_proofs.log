@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.8.31)  31 AUG 2025 18:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.8.31)  1 SEP 2025 09:12
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_the_proof/every_function_is_a_polynomial_two_proofs.tex
-(/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_the_proof/every_function_is_a_polynomial_two_proofs.tex
+**/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_two_proofs/every_function_is_a_polynomial_two_proofs.tex
+(/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_two_proofs/every_function_is_a_polynomial_two_proofs.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22> (/usr/local/texlive/2023/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
@@ -336,8 +336,7 @@ LaTeX Info: Redefining \_ on input line 43.
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count292
 \l__pdf_internal_box=\box64
-)
-No file every_function_is_a_polynomial_two_proofs.aux.
+) (./every_function_is_a_polynomial_two_proofs.aux)
 \openout1 = `every_function_is_a_polynomial_two_proofs.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -354,7 +353,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
-(/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count293
 \scratchdimen=\dimen258
@@ -409,15 +408,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6] [7] [8] (./every_function_is_a_polynomial_two_proofs.aux) )
 (\end occurred when \ifx on line 3 was incomplete)
 Here is how much of TeX's memory you used:
- 13991 strings out of 476025
- 284420 string characters out of 5790017
+ 13993 strings out of 476025
+ 284515 string characters out of 5790017
  1863388 words of memory out of 5000000
  34189 multiletter control sequences out of 15000+600000
  520496 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,13n,104p,619b,638s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,13n,104p,620b,638s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on every_function_is_a_polynomial_two_proofs.pdf (8 pages, 186759 bytes).
+Output written on every_function_is_a_polynomial_two_proofs.pdf (8 pages, 186736 bytes).
 PDF statistics:
  109 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream

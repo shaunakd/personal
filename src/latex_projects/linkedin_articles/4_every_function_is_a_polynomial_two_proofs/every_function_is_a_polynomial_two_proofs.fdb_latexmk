@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1756662728 "/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_the_proof/every_function_is_a_polynomial_two_proofs.tex" "every_function_is_a_polynomial_two_proofs.pdf" "every_function_is_a_polynomial_two_proofs" 1756662729 2
-  "/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_the_proof/every_function_is_a_polynomial_two_proofs.tex" 1756662681 13886 162e314f8e078517bcafffa3ce9bba6d ""
+["pdflatex"] 1756714336 "/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_two_proofs/every_function_is_a_polynomial_two_proofs.tex" "every_function_is_a_polynomial_two_proofs.pdf" "every_function_is_a_polynomial_two_proofs" 1756714337 2
+  "/Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_two_proofs/every_function_is_a_polynomial_two_proofs.tex" 1756714333 13882 eceb2d5c9b3f16b6a2f2e3934767d899 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -140,8 +140,8 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1693478420 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1693478321 7883452 3d58e7343772c2993355c2229d5a272e ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "every_function_is_a_polynomial_two_proofs.aux" 1756662729 32 f852561997c05a7d986acd1deeb530ec "pdflatex"
-  "every_function_is_a_polynomial_two_proofs.tex" 1756662681 13886 162e314f8e078517bcafffa3ce9bba6d ""
+  "every_function_is_a_polynomial_two_proofs.aux" 1756714337 32 f852561997c05a7d986acd1deeb530ec "pdflatex"
+  "every_function_is_a_polynomial_two_proofs.tex" 1756714333 13882 eceb2d5c9b3f16b6a2f2e3934767d899 ""
   (generated)
   "every_function_is_a_polynomial_two_proofs.aux"
   "every_function_is_a_polynomial_two_proofs.log"

@@ -1,8 +1,8 @@
-PWD /Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_the_proof
+PWD /Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_two_proofs
 INPUT /usr/local/texlive/2023/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_the_proof/every_function_is_a_polynomial_two_proofs.tex
+INPUT /Users/shaun/Documents/Git/personal/src/latex_projects/linkedin_articles/4_every_function_is_a_polynomial_two_proofs/every_function_is_a_polynomial_two_proofs.tex
 OUTPUT every_function_is_a_polynomial_two_proofs.log
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/article.cls
@@ -417,6 +417,9 @@ INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.de
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT ./every_function_is_a_polynomial_two_proofs.aux
+INPUT every_function_is_a_polynomial_two_proofs.aux
+INPUT every_function_is_a_polynomial_two_proofs.aux
 OUTPUT every_function_is_a_polynomial_two_proofs.aux
 INPUT /usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
