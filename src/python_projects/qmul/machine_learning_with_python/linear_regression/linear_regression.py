@@ -115,5 +115,5 @@ def prediction_error(
 
     X, Y, W = data_matrix, data_outputs, weights
     s = X.shape[0]
-    MSE = 1 / (2 * s) * np.linalg.norm(X @ W - Y) ** 2
-    return float(MSE)
+    MSE = float(1 / (2 * s) * np.linalg.norm(X @ W - Y) ** 2)
+    return MSE
