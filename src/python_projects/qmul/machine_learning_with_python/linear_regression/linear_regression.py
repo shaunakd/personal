@@ -77,10 +77,9 @@ def linear_regression(
     """
 
     X, Y = data_matrix, data_outputs
-    XTX, XTY = np.matmul(X.T, X), np.matmul(X.T, Y)
-    W = np.linalg.solve(
-        XTX, XTY
-    )  # the equivalent of np.matmul(np.linalg.inv(XTX), XTY), the exact solution.
+    XTX, XTY = X.T @ X, X.T @ Y
+    W = np.linalg.solve(XTX, XTY)
+    # the equivalent of np.matmul(np.linalg.inv(XTX), XTY), the exact solution.
     return W
 
 
@@ -116,5 +115,5 @@ def prediction_error(
 
     X, Y, W = data_matrix, data_outputs, weights
     s = X.shape[0]
-    MSE = 1 / (2 * s) * np.linalg.norm(np.matmul(X, W) - Y) ** 2
+    MSE = 1 / (2 * s) * np.linalg.norm(X @ W - Y) ** 2
     return float(MSE)
