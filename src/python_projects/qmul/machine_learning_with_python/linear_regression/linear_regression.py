@@ -78,8 +78,8 @@ def linear_regression(
 
     X, Y = data_matrix, data_outputs
     XTX, XTY = X.T @ X, X.T @ Y
+    # explicitly, the exact solution is np.linalg.inv(XTX) @ XTY.
     W = np.linalg.solve(XTX, XTY)
-    # the equivalent of np.matmul(np.linalg.inv(XTX), XTY), the exact solution.
     return W
 
 
