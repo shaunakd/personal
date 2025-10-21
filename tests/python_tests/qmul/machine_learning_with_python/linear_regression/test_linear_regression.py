@@ -4,8 +4,6 @@ from numpy.testing import assert_array_almost_equal, assert_array_equal
 from python_projects.qmul.machine_learning_with_python.linear_regression.linear_regression import (
     linear_regression,
     prediction_error,
-)
-from python_projects.qmul.machine_learning_with_python.linear_regression.linear_regression import (
     linear_regression_data,
 )
 
