@@ -7,4 +7,4 @@ add_executable(test_arithmetic_mean
 target_link_libraries(test_arithmetic_mean arithmetic_mean)
 
 # Include directories for the test executable
-target_include_directories(test_arithmetic_mean PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../../src/c++_projects/trading_interview)
+target_include_directories(test_arithmetic_mean PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/trading_interview)
