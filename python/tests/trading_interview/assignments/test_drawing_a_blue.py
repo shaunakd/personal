@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.drawing_a_blue import (
+from src.trading_interview.assignments.drawing_a_blue import (
     run_simulation,
 )
 

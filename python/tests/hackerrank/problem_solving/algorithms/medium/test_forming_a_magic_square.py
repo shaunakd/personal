@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.hackerrank.problem_solving.algorithms.medium.forming_a_magic_square import (
+from src.hackerrank.problem_solving.algorithms.medium.forming_a_magic_square import (
     form_magic_square,
 )
 

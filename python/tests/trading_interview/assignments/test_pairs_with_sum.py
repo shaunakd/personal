@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.pairs_with_sum import (
+from src.trading_interview.assignments.pairs_with_sum import (
     find_pairs_with_sum,
 )
 

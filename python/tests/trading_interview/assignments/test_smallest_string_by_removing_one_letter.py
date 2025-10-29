@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.smallest_string_by_removing_one_letter import (
+from src.trading_interview.assignments.smallest_string_by_removing_one_letter import (
     get_smallest_string_by_removing_one_letter,
 )
 

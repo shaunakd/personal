@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.largest_number import (
+from src.trading_interview.assignments.largest_number import (
     create_largest_number,
 )
 

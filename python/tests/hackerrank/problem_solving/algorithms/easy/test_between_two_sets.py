@@ -1,6 +1,6 @@
 import pytest
 
-from src.python_projects.hackerrank.problem_solving.algorithms.easy.between_two_sets import (
+from src.hackerrank.problem_solving.algorithms.easy.between_two_sets import (
     get_numbers_between,
 )
 

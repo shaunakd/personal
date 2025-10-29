@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.missing_number import (
+from src.trading_interview.assignments.missing_number import (
     find_missing_number,
 )
 

@@ -1,6 +1,6 @@
 import pytest
 
-from src.python_projects.hackerrank.problem_solving.algorithms.easy.cavity_map import (
+from src.hackerrank.problem_solving.algorithms.easy.cavity_map import (
     cavity_map,
     get_adjacent_cells,
 )

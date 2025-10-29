@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.words_with_consecutive_letters import (
+from src.trading_interview.assignments.words_with_consecutive_letters import (
     get_words_with_consecutive_letters,
 )
 

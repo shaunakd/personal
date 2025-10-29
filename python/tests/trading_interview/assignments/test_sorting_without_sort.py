@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.sorting_without_sort import (
+from src.trading_interview.assignments.sorting_without_sort import (
     merge_sorted_lists,
 )
 

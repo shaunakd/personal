@@ -27,7 +27,7 @@ Instructions:
 
 import re
 from typing import Optional, Union
-from src.python_projects.utils.utils import (
+from src.utils.utils import (
     invert_injective_dictionary,
     invert_non_injective_dictionary,
     read_file,

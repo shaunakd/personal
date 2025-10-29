@@ -1,6 +1,6 @@
 import pytest
 
-from src.python_projects.hackerrank.problem_solving.algorithms.easy.breaking_records import (
+from src.hackerrank.problem_solving.algorithms.easy.breaking_records import (
     get_number_of_broken_records,
 )
 

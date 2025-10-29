@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.longest_common_prefix import (
+from src.trading_interview.assignments.longest_common_prefix import (
     get_longest_common_prefix,
 )
 

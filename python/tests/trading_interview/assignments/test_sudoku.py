@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.trading_interview.assignments.sudoku import Sudoku
+from src.trading_interview.assignments.sudoku import Sudoku
 
 
 @pytest.mark.parametrize(

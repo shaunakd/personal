@@ -1,5 +1,5 @@
 import pytest
-from src.python_projects.miscellaneous.net_salary_calculator import Employee
+from src.miscellaneous.net_salary_calculator import Employee
 
 
 @pytest.mark.parametrize(

@@ -1,15 +1,14 @@
-import json
 import pytest
 from pathlib import Path
-
 import sys
-from src.python_projects.trading_interview.assignments.word_frequency import (
+import json
+from src.trading_interview.assignments.word_frequency import (
     group_words_by_frequency,
     read_text_file,
     filter_text,
     word_frequency,
 )
-from src.python_projects.utils.utils import read_file
+from src.utils.utils import read_file
 
 pytestmark = pytest.mark.unit
 
