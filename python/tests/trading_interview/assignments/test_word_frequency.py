@@ -117,7 +117,9 @@ def test_filter_text(test_dir, expected_output):
     ],
 )
 def test_word_frequency(test_dir, expected_output):
-    filtered_text = read_text_file(ROOT_DIR / "filtered_text.txt")
+    # read the text from the specific test directory, filter it, then compute frequency
+    text = read_text_file(test_dir / "text.txt")
+    filtered_text = filter_text(text)
     actual_output = word_frequency(filtered_text)
     assert actual_output == expected_output
     if actual_output:
@@ -126,7 +128,7 @@ def test_word_frequency(test_dir, expected_output):
                 file.write(json.dumps(actual_output))
 
 
-def test_group_words_by_frequency(test_dir):
+def test_group_words_by_frequency():
     word_freq = read_file(ROOT_DIR / "word_frequency_output.json")
     expected_output = {
         (

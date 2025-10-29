@@ -67,11 +67,14 @@ def word_frequency(filtered_text: Optional[str]) -> Optional[dict[str, int]]:
     Returns a dictionary containing the frequency of each word in text.
     """
     # creates final dictionary of word frequencies
-    word_frequency = None
-    if filtered_text:
-        words = filtered_text.split()
-        word_frequency = {word: words.count(word) for word in set(words)}
-        word_frequency = {word: word_frequency[word] for word in sorted(word_frequency)}
+    if filtered_text is None:
+        return None
+    # treat empty or whitespace-only text as empty dict
+    if filtered_text.strip() == "":
+        return {}
+    words = filtered_text.split()
+    word_frequency = {word: words.count(word) for word in set(words)}
+    word_frequency = {word: word_frequency[word] for word in sorted(word_frequency)}
     return word_frequency
 
 
