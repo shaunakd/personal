@@ -3,19 +3,30 @@ project(OptionsPricer LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+option(BUILD_TESTS "Build OptionsPricer tests" OFF)
 
-add_library(OptionsPricerLib
-    src/OptionsPricer.cpp
-)
+file(GLOB OPTIONSPRICER_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+
+add_library(OptionsPricerLib ${OPTIONSPRICER_SOURCES})
 
 target_include_directories(OptionsPricerLib
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
-add_executable(options_pricer apps/pricer_main.cpp)
-target_link_libraries(options_pricer PRIVATE OptionsPricerLib)
+target_compile_options(OptionsPricerLib PRIVATE -Wall -Wextra -Wpedantic)
 
-install(TARGETS OptionsPricerLib options_pricer
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/apps/pricer_main.cpp)
+  add_executable(pricer_main apps/pricer_main.cpp)
+  target_link_libraries(pricer_main PRIVATE OptionsPricerLib)
+endif()
+
+if(BUILD_TESTS)
+  enable_testing()
+  # tests go here
+endif()
+
+include(GNUInstallDirs)
+install(TARGETS OptionsPricerLib RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

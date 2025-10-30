@@ -12,5 +12,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Adding subdirectories for different projects
-add_subdirectory(cpp/src/trading_interview)
+add_subdirectory(cpp/temp_src/trading_interview)
 add_subdirectory(cpp/tests/c++_tests/trading_interview)
+add_subdirectory(cpp/OptionsPricer)
