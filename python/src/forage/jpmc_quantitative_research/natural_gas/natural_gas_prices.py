@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from datetime import timedelta
-from python_projects.utils.utils import read_file
+from src.utils.utils import read_file
 
 
 # Load the CSV file containing natural gas prices
