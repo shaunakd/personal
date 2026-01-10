@@ -7,6 +7,9 @@ option(BUILD_TESTS "Build OptionsPricer tests" OFF)
 
 file(GLOB OPTIONSPRICER_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
+# Exclude main.cpp from the library sources if present
+list(FILTER OPTIONSPRICER_SOURCES EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp$")
+
 add_library(OptionsPricerLib ${OPTIONSPRICER_SOURCES})
 
 target_include_directories(OptionsPricerLib
@@ -17,8 +20,8 @@ target_include_directories(OptionsPricerLib
 
 target_compile_options(OptionsPricerLib PRIVATE -Wall -Wextra -Wpedantic)
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/apps/pricer_main.cpp)
-  add_executable(pricer_main apps/pricer_main.cpp)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+  add_executable(pricer_main src/main.cpp)
   target_link_libraries(pricer_main PRIVATE OptionsPricerLib)
 endif()
 

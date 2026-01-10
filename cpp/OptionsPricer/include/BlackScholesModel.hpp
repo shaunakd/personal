@@ -1,14 +1,17 @@
-#pragma once
+#ifndef BLACKSCHOLESMODEL_HPP
+#define BLACKSCHOLESMODEL_HPP
 
-namespace qmul {
-namespace options {
-
-class BlackScholesModel {
-public:
-  // Black-Scholes model pricing routines (declarations only)
-  BlackScholesModel() = default;
-  ~BlackScholesModel() = default;
+struct MarketData {
+    double r; // interest rate
+    double S; // share price
+    double q; // dividend yield
+    double sigma; // volatility
 };
 
-} // namespace options
-} // namespace qmul
+struct TradeData {
+    double K; // strike price
+    double N; // notional
+    double T; // years to expiry
+};
+
+#endif
